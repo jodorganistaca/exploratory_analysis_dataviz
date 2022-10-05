@@ -1,0 +1,234 @@
+---
+title: "TP1"
+author: "Jose Daniel"
+date: "2022-10-05"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R exercices
+## Basic object manipulation and inspection
+
+### 1.Vectors
+### 1.1 Let’s start simple
+
+Creation of the following vectors
+```{r cars}
+e1 <- c(2, 5, 0, 8)
+e2 <- (1:200)
+e3 <- seq(200, 210, by = 2)
+e4 <- c(2, 4, 8, 16, 32, 64, 128)
+```
+
+Creation of the vector v of 50 elements such that v[2i] = −1, v[2i + 1] = 1,
+
+Create the vector e5 = (1, 2, ...210) by concatenating e2 and e3.
+
+```{r}
+e5 <- c(e2,e3)
+```
+
+Create the vector e7 containing 70 equally spaced values between 0 and 1.
+```{r}
+e7 <- seq(0, 1, length = 70)
+```
+
+Create the vector e8 containing 10 times the sequence e1.
+```{r}
+e8 <- rep(e1, times = 10)
+```
+
+What is the result of the operation e2 − e3 ? This is called recycling, and this is dangerous
+```{r}
+r <- e2 - e3
+```
+la taille d'un objet plus long n'est pas multiple de la taille d'un objet plus court
+
+### 1.2 Character vectors
+
+Create a vector vowels containing all vowels
+
+```{r}
+vowels <- c('a', 'e', 'i', 'o', 'u')
+```
+
+letters is a character vector containing all the letters in alphabetical order.
+```{r}
+letters
+```
+
+What does letters %in% vowels do ?
+```{r}
+letters %in% vowels
+```
+An array of booelean its true when the letter is the same that the vowel
+
+Extract the number of each vowel
+```{r}
+which(letters %in% vowels)
+```
+
+Extract the number of each non-vowel
+```{r}
+length(letters) - length(vowels)
+```
+
+What are the letters right after a vowel ?
+```{r}
+letters[which(letters %in% vowels) + 1]
+```
+
+Create the string myname containing your name (in lower case)
+```{r}
+myname <- 'josedaniel'
+```
+
+Use strsplit to extract individual letters of your name. Observe that strsplit returns a list. Access its
+first element.
+```{r}
+myname <- 'josedaniel'
+lettersofmyname <- strsplit(myname, "")[[1]]
+```
+
+Give for each character of your name its number in the alphabet.
+```{r}
+myname <- 'josedaniel'
+lettersofmyname <- strsplit(myname, "")[[1]]
+letters[which(letters %in% lettersofmyname)]
+which(letters %in% lettersofmyname)
+```
+
+Do the same with your right neighbor’s name.
+```{r}
+myname <- 'josedaniel'
+lettersofmyname <- strsplit(myname, "")[[1]]
+letters[which(letters %in% lettersofmyname)+1]
+which(letters %in% lettersofmyname)+1
+```
+
+Who is on average lower in the alphabet ?
+```{r}
+
+```
+
+### 2.DataFrames
+### 2.1 Cute animals.
+
+Create a dataframe that contains 3 columns: the alphabet letters, the number of each letter, and a binary variable
+voyel.
+```{r}
+number <- which(letters%in%letters)
+isvowel <- letters%in%vowels
+df1<-data.frame(letters,number, isvowel)
+print(df1)
+```
+
+Extract the lines of the dataframe corresponding to your name.
+```{r}
+df1[which(letters %in% lettersofmyname),]
+```
+
+Let’s work on the msleep dataset. It contains information about the sleeping patterns of many animals:
+```{r}
+library(ggplot2)
+data(msleep)
+msleep
+```
+
+Examine the dataset: head, str, names, summary
+```{r}
+head(msleep)
+str(msleep)
+names(msleep)
+summary(msleep)
+```
+
+Sanity check: make sure that animals are either awake either asleep over the course of 24hrs
+```{r}
+msleep$awake + msleep$sleep_total
+```
+
+
+What is the animal that sleeps the most ?
+```{r}
+msleep[which.max(msleep$sleep_total),]
+```
+
+How many animals of less than 100g and sleep more than half a day ?
+```{r}
+#msleep[which(msleep$bodywt < 100 & msleep$sleep_total > 12),]
+length(which(msleep$bodywt < 100 & msleep$sleep_total > 12))
+```
+
+What is the average brain weight/body weigth ratio ?
+```{r}
+mean(msleep$brainwt[which(is.na(msleep$brainwt) == FALSE)] / msleep$bodywt[which(is.na(msleep$brainwt) == FALSE)])
+```
+
+Who has the highest such ratio ?
+```{r}
+msleep[which.max(msleep$brainwt[which(is.na(msleep$brainwt) == FALSE)] / msleep$bodywt[which(is.na(msleep$brainwt) == FALSE)]),]
+```
+
+### 2.2 Endangered animals: let us consider the case of Threatened or extinct animals
+create a copy of msleep and reorder its factors according to the presented order. To create an ordered factor,
+use the ordered=TRUE option of the factor function
+```{r}
+f <- factor(na.omit(msleep$conservation), levels = c("lc", "domesticated", "cd", "nt", "vu", "en"), ordered = TRUE)
+summary(f)
+copymsleep <- na.omit(msleep[match(msleep$conservation, f), ])
+head(copymsleep)
+```
+
+use the ordered factors to compare the average weight to isolate threatened animals and compute their average
+weight
+```{r}
+
+```
+
+compare this weight to the weight of the remaining animals
+```{r}
+
+```
+
+add a boolean column to the dataframe, threatened, that is true if the animal is threatened
+```{r}
+
+```
+
+
+### 2.3 Functions
+
+• Create a function returning taking a name as input, and returning the corresponding letter numbers.
+```{r}
+
+```
+
+• What happends if you give an empty ”” name to this function ? Fix accordingly.
+```{r}
+
+```
+
+• What happends if you give to this function non-standard characters ? Fix the problem. Tip: choose one strategy:
+regexp, NA, substr and tolower
+```{r}
+
+```
+
+• Create a function that take an animal name as input, and returns its genus under the form ”The Goat is a Capri”
+if it is in the msleep dataset, and ”I don’t know” otherwise.
+```{r}
+
+```
+
+• The browser() command allows debugging. When R encounters this call, it stops the execution of a function
+and provides the user with a different Browse prompt. Place a browser somewhere in your function, and
+run this function. Print some local variables. You can continue the execution with n, and quit the browser mode
+with Q.
+```{r}
+
+```
+
