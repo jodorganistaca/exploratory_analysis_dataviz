@@ -177,26 +177,29 @@ msleep[which.max(msleep$brainwt[which(is.na(msleep$brainwt) == FALSE)] / msleep$
 create a copy of msleep and reorder its factors according to the presented order. To create an ordered factor,
 use the ordered=TRUE option of the factor function
 ```{r}
-f <- factor(na.omit(msleep$conservation), levels = c("lc", "domesticated", "cd", "nt", "vu", "en"), ordered = TRUE)
-summary(f)
-copymsleep <- na.omit(msleep[match(msleep$conservation, f), ])
-head(copymsleep)
+copymsleep = msleep
+copymsleep$conservation = factor(copymsleep$conservation, levels = c("lc", "domesticated", "cd", "nt", "vu", "en"), ordered = TRUE)
+subset(copymsleep, conservation >= "en")
+ 
 ```
 
 use the ordered factors to compare the average weight to isolate threatened animals and compute their average
 weight
 ```{r}
 
+mean(copymsleep$bodywt[f == "cd" | f == "vu" | f == "en"])
 ```
 
 compare this weight to the weight of the remaining animals
 ```{r}
-
+mean(copymsleep$bodywt[f != "cd" | f != "vu" | f != "en"])
 ```
 
 add a boolean column to the dataframe, threatened, that is true if the animal is threatened
 ```{r}
-
+threatened_animals <- copymsleep[which(copymsleep$conservation == "en" | copymsleep$conservation == "vu" | copymsleep$conservation == "cd"),]
+copymsleep$conservation %in% threatened_animals$conservation
+copymsleep$threatened <- copymsleep$conservation %in% threatened_animals$conservation
 ```
 
 
@@ -204,23 +207,43 @@ add a boolean column to the dataframe, threatened, that is true if the animal is
 
 • Create a function returning taking a name as input, and returning the corresponding letter numbers.
 ```{r}
-
+letter_numbers <- function(name) {
+  if(is.na(name) || name == ""){
+    return ("Give a correct name")
+  }
+  lettersofname <- strsplit(name, "")[[1]]
+  return (which(letters %in% lettersofname))
+}
+letter_numbers("josedaniel")
 ```
 
 • What happends if you give an empty ”” name to this function ? Fix accordingly.
 ```{r}
-
+letter_numbers("")
 ```
 
 • What happends if you give to this function non-standard characters ? Fix the problem. Tip: choose one strategy:
 regexp, NA, substr and tolower
 ```{r}
-
+letter_numbers("jose?kbi€")
 ```
 
 • Create a function that take an animal name as input, and returns its genus under the form ”The Goat is a Capri”
 if it is in the msleep dataset, and ”I don’t know” otherwise.
 ```{r}
+is_in_msleep <- function(name){
+  indx <- which(msleep$name == name)
+  r <- "hi"
+  if(indx>0) {
+    s1 <- "The"
+    s2 <- "is a"
+    r <- paste(s1,name,s2,msleep$genus[indx],sep =" ")
+  }else{
+    r <- "I don't know."
+  }
+  return (r)
+  #browser()
+}
 
 ```
 

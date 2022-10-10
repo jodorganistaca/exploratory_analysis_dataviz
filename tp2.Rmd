@@ -1,0 +1,15 @@
+---
+title: "tp2"
+author: "Jose Daniel"
+date: "2022-10-10"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Plots and more complex procedures
+
+## 1 Plots and Given Names
+
