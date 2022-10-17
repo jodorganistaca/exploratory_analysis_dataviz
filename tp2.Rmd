@@ -13,3 +13,147 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1 Plots and Given Names
 
+Read the table prenoms.csv and inspect it
+
+```{r}
+prenoms <- read.csv("/home/organist/Documents/exploratory_analysis_dataviz/prenoms.csv",sep=";")
+
+library(tidyverse)
+library(ggrepel)
+
+head(prenoms)
+
+```
+
+### Plots
+
+The number of births by year
+
+```{r}
+prenoms  %>% group_by(Année) %>% summarise(tot=sum(Nombre)) ->stata
+
+stata %>% ggplot(aes(x=Année,y=tot))+geom_line()
+```
+The number of male/female births by yea
+```{r}
+prenoms  %>% group_by(Année,Sexe) %>% summarise(tot=sum(Nombre)) ->stata2
+
+stata2 %>% ggplot(aes(x=Année,y=tot, group=Sexe, color=Sexe))+geom_line()
+```
+Is your name in the dataset ?
+```{r}
+tocayos <- prenoms[which(prenoms$Prénom == "Daniel"),]
+tocayos
+```
+
+Represent the 10 most given names
+
+```{r}
+prenoms  %>% group_by(Prénom) %>% summarise(tot=sum(Nombre)) -> top10names
+top10names <- top10names[order(- top10names$tot),]
+head(top10names,10)
+```
+Select for each year the top 5 given names by sex and represent their evolution along years.
+
+```{r}
+require("ggrepel")
+prenoms %>% group_by(Année,Prénom) %>% summarise(tot=sum(Nombre)) %>% slice_max(order_by = tot, n = 5) -> topNames
+top5_by_year = prenoms %>% group_by(Année,Sexe) %>% arrange(desc(Nombre)) %>% slice(1:5)
+top5_by_year %>% ggplot(aes(x=Année,y=Nombre, group=Sexe, color=Sexe))+geom_point()+geom_label_repel(aes(label=Prénom),size = 3)
+
+```
+
+- Plot the average number of letters by year
+```{r}
+prenoms_nb_letter <- prenoms
+prenoms_nb_letter$NB_Letters <- nchar(prenoms$Prénom)
+prenoms_nb_letter$total_Letters_by_prenom <- nchar(prenoms$Prénom) * prenoms$Nombre
+mean_letters_by_year <- prenoms_nb_letter %>% group_by(Année) %>% summarise(mean_letters_by_year=sum(total_Letters_by_prenom)/sum(Nombre))
+mean_letters_by_year %>% ggplot(aes(x=Année,y=tot))+geom_point()
+
+```
+
+- Plot the average number of vowels/consonants by year
+```{r}
+prenoms_vowels_consonants <- prenoms
+prenoms_vowels_consonants$vowels <- nchar(gsub("[^aeiouy]","",prenoms$Prénom, ignore.case = TRUE))
+prenoms_vowels_consonants$consonants <- nchar(prenoms$Prénom) - nchar(gsub("[^aeiouy]","",prenoms$Prénom, ignore.case = TRUE))
+prenoms_vowels_consonants$total_vowels <- prenoms_vowels_consonants$Nombre * prenoms_vowels_consonants$vowels
+prenoms_vowels_consonants$total_consonants <- prenoms_vowels_consonants$Nombre * prenoms_vowels_consonants$consonants
+mean_vowels_consonants_by_year <- prenoms_vowels_consonants %>% group_by(Année) %>% summarise(mean_vowels_by_year=sum(total_vowels)/sum(Nombre), mean_consonants_by_year=sum(total_consonants)/sum(Nombre))
+mean_vowels_consonants_by_year
+```
+
+- How the number of composed names (like Jean-Baptiste or Lou-Ann)
+```{r}
+composed_names <- prenoms[which(grepl("-",prenoms$Prénom)),]
+head(composed_names)
+```
+
+- Define a “hype” criteria and find the hypest names
+```{r}
+hype_names = prenoms[which(grepl("é",prenoms$Prénom) & grepl("y",prenoms$Prénom)),]
+hype_names %>% group_by(Prénom) %>% summarise(tot=sum(Nombre)) -> stata
+stata
+```
+
+## Exploring the Gray city
+
+• read the table prenomsParis.csv
+
+```{r}
+prenoms_paris <- read.csv("/home/organist/Documents/exploratory_analysis_dataviz/prenomsParis.csv",sep=";")
+
+library(tidyverse)
+library(ggrepel)
+
+head(prenoms_paris)
+```
+
+
+• repeat what you’ve done with Toulouse, rewriting as little as possible
+
+```{r}
+prenoms_paris  %>% group_by(Annee) %>% summarise(tot=sum(Nombre)) ->stata
+
+stata %>% ggplot(aes(x=Annee,y=tot))+geom_line() + ggtitle("Number of births by year")
+```
+```{r}
+prenoms_paris  %>% group_by(Annee,Sexe) %>% summarise(tot=sum(Nombre)) ->stata2
+
+stata2 %>% ggplot(aes(x=Annee,y=tot, group=Sexe, color=Sexe))+geom_line() + ggtitle("Number of male/female/X births by year")
+```
+
+```{r}
+prenoms_paris  %>% group_by(Prenoms) %>% summarise(tot=sum(Nombre)) -> top10names_paris
+top10names_paris <- top10names_paris[order(- top10names_paris$tot),]
+head(top10names_paris,10)
+```
+```{r}
+top5_by_year_paris = prenoms_paris %>% group_by(Annee,Sexe) %>% arrange(desc(Nombre)) %>% slice(1:5)
+top5_by_year_paris %>% ggplot(aes(x=Annee,y=Nombre, group=Sexe, color=Sexe))+geom_point()+geom_label_repel(aes(label=Prenoms),size = 3) + ggtitle("top 5 given names by sex, Evolution along years.")
+```
+Plot the average number of letters by year (A complete)
+```{r}
+prenoms_nb_letter <- prenoms
+prenoms_nb_letter$NB_Letters <- nchar(prenoms$Prénom)
+prenoms_nb_letter$total_Letters_by_prenom <- nchar(prenoms$Prénom) * prenoms$Nombre
+mean_letters_by_year <- prenoms_nb_letter %>% group_by(Année) %>% summarise(mean_letters_by_year=sum(total_Letters_by_prenom)/sum(Nombre))
+mean_letters_by_year %>% ggplot(aes(x=Année,y=tot))+geom_point()
+```
+
+A tale of two cities
+• Combine observations made on the two cities.
+• Normalise by the number of births.
+
+```{r}
+prenoms  %>% group_by(Année) %>% summarise(tot=sum(Nombre)) ->stata
+prenoms$Nombre_Norm = prenoms$Nombre / stata$tot[which(stata$Année == prenoms$Année)]
+stata
+```
+
+
+• What are the most unshared names ?
+A tale of many cities
+• Read the table prenomsRennesStrassNantesToul.csv
+• Inspect it. On the opendata website the description is the following:
