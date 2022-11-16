@@ -1,0 +1,38 @@
+---
+title: "Football_Player_Stats"
+author: "Jose Daniel"
+date: "2022-11-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Football Player Stats
+
+This is an
+
+```{r cars}
+players <- read.csv("/home/organist/Documents/exploratory_analysis_dataviz/project/2021-2022_Football_Player_Stats.csv",sep=";")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+head(players)
+```
+
+max goleador
+
+```{r}
+players[which.max(players$Goals),]
+```
+sort by goals
+```{r}
+ by_goals <- players[order(-players$Goals),] 
+by_goals
+```
+
