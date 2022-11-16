@@ -32,13 +32,13 @@ The number of births by year
 ```{r}
 prenoms  %>% group_by(Année) %>% summarise(tot=sum(Nombre)) ->stata
 
-stata %>% ggplot(aes(x=Année,y=tot))+geom_line()
+stata %>% ggplot(aes(x=Année,y=tot))+geom_line() + ggtitle("Number of births by year")
 ```
 The number of male/female births by yea
 ```{r}
 prenoms  %>% group_by(Année,Sexe) %>% summarise(tot=sum(Nombre)) ->stata2
 
-stata2 %>% ggplot(aes(x=Année,y=tot, group=Sexe, color=Sexe))+geom_line()
+stata2 %>% ggplot(aes(x=Année,y=tot, group=Sexe, color=Sexe))+geom_line()+ ggtitle("Number of births by year/Sex")
 ```
 Is your name in the dataset ?
 ```{r}
@@ -69,7 +69,7 @@ prenoms_nb_letter <- prenoms
 prenoms_nb_letter$NB_Letters <- nchar(prenoms$Prénom)
 prenoms_nb_letter$total_Letters_by_prenom <- nchar(prenoms$Prénom) * prenoms$Nombre
 mean_letters_by_year <- prenoms_nb_letter %>% group_by(Année) %>% summarise(mean_letters_by_year=sum(total_Letters_by_prenom)/sum(Nombre))
-mean_letters_by_year %>% ggplot(aes(x=Année,y=tot))+geom_point()
+mean_letters_by_year %>% ggplot(aes(x=Année,y=mean_letters_by_year))+geom_point()
 
 ```
 
@@ -139,11 +139,53 @@ prenoms_nb_letter <- prenoms
 prenoms_nb_letter$NB_Letters <- nchar(prenoms$Prénom)
 prenoms_nb_letter$total_Letters_by_prenom <- nchar(prenoms$Prénom) * prenoms$Nombre
 mean_letters_by_year <- prenoms_nb_letter %>% group_by(Année) %>% summarise(mean_letters_by_year=sum(total_Letters_by_prenom)/sum(Nombre))
-mean_letters_by_year %>% ggplot(aes(x=Année,y=tot))+geom_point()
+mean_letters_by_year %>% ggplot(aes(x=Année,y=mean_letters_by_year))+geom_point()
 ```
 
-A tale of two cities
+## A tale of two cities
+
 • Combine observations made on the two cities.
+
+```{r}
+prenoms  %>% group_by(Année) %>% summarise(tot=sum(Nombre)) ->stata_pink
+prenoms_paris  %>% group_by(Annee) %>% summarise(tot=sum(Nombre)) ->stata_gray
+
+stata_pink %>% ggplot(aes(x=stata_pink$Année,y=stata_pink$tot))+geom_line() + stata_gray %>% ggplot(aes(x=Annee,y=tot))+geom_line() + ggtitle("Number of births combined by year ")
+combined <- ggplot() +
+  geom_line(data = stata_pink, 
+            aes(x= Année, y = tot, color = 'red'),
+            size=1)+
+  theme_dark() +
+  geom_line(data = stata_gray, 
+            aes(x= Annee, y = tot, color = 'green'),
+            size=1)+
+  ggtitle("Number of births by year")
+combined
+```
+Data treatment prepare to merge
+
+```{r}
+prenoms <- read.csv("/home/organist/Documents/exploratory_analysis_dataviz/prenoms.csv",sep=";")
+prenoms_paris <- read.csv("/home/organist/Documents/exploratory_analysis_dataviz/prenomsParis.csv",sep=";")
+prenoms <- prenoms[,-5]
+prenoms %>% 
+  rename(
+    Prenoms = Prénom,
+    Annee = Année
+    ) -> prenoms
+```
+
+
+Merge the table by prenom
+
+```{r}
+pink_gray = full_join(x = prenoms, y = prenoms_paris, by = c("Prenoms","Annee","Sexe"))
+pink_gray[is.na(pink_gray)] <- 0
+pink_gray['Nombre'] <- pink_gray$Nombre.x + pink_gray$Nombre.y
+pink_gray
+```
+
+
 • Normalise by the number of births.
 
 ```{r}
@@ -154,6 +196,8 @@ stata
 
 
 • What are the most unshared names ?
-A tale of many cities
+
+## A tale of many cities
+
 • Read the table prenomsRennesStrassNantesToul.csv
 • Inspect it. On the opendata website the description is the following:
