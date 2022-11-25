@@ -65,7 +65,7 @@ players[which.max(players$Goals_tot),]
 ```
 sort by goals
 ```{r}
- by_goals <- players[order(-players$Goals_tot),] 
+by_goals <- players[order(-players$Goals_tot),] 
 by_goals
 
 ```
@@ -75,8 +75,14 @@ defenser with touches in attacking 1/3
 
 position = unique(players$Pos)
 position
-defenser = players[which(players$Pos == "DF"),]
-defenser <-defenser[order(-defenser$TouAtt3rd),]
-defenser
+goal_keepers = players[which(players$Pos == "GK"),]
+defenders = players[which(players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"),]
+midfielders = players[which(players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"),]
+forwards = players[which(players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"),]
+bizard = players[which(players$Pos == "GKMF"),]
+```
+```{r}
+defenders <-defenders[order(-defenser$TouAtt3rd),]
+defenders
 ```
 
