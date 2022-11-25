@@ -15,6 +15,39 @@ This is an
 
 ```{r cars}
 players <- read.csv("./2021-2022_Football_Player_Stats.csv",sep=";")
+
+players['Player'] = players['Player']
+players['Nation'] = players['Nation']
+players['Pos'] = players['Pos']
+players['Squad'] = players['Squad']
+players['Comp'] = players['Comp']
+players['Age'] = players['Age']
+players['MP'] = players['MP']
+players['G.90'] = players['Goals']
+players['G.Sh'] = players['G.Sh']
+players['PKGoals'] = round(((players['ShoPK'] * players['Min']) / 90),0)
+players['PKAttempted'] = round(((players['PKatt'] * players['Min']) / 90),0)
+players['Goals_tot'] = round(((players['G.90'] * players['Min']) / 90),0)
+players['Pass'] = round(((players['PasTotAtt'] * players['Min']) / 90),0)
+players['PassCompleted'] = round(((players['PasTotCmp'] * players['Min']) / 90),0)
+players['PassComp%'] = round(((players['PassCompleted'] / players['Pass']) * 100),2)
+players['Assist'] = round(((players['Assists'] * players['Min']) / 90),0)
+players['Cross'] = round(((players['PasCrs'] * players['Min']) / 90),0)
+players['CrossCompleted'] = round(((players['CrsPA'] * players['Min']) / 90),0)
+players['CrossComp%'] = round(((players['CrossCompleted'] / players['Cross']) * 100),2)
+players['Tackle_Won'] = round(((players['TklWon'] * players['Min']) / 90),0)
+players['SucDribble'] = round(((players['DriSucc'] * players['Min']) / 90),0)
+players['Dribble'] = round(((players['DriAtt'] * players['Min']) / 90),0)
+players['DribbleComp%'] = round(((players['SucDribble'] / players['Dribble']) * 100),2)
+players['YCards'] = round(((players['CrdY'] * players['Min']) / 90),0)
+players['RCards'] = round(((players['CrdR'] * players['Min']) / 90),0)
+players['Fls'] = round(((players['Fls'] * players['Min']) / 90),0)
+players['Fld'] = round(((players['Fld'] * players['Min']) / 90),0)
+players['OGoals'] = round(((players['OG'] * players['Min']) / 90),0)
+players['AerWon'] = round(((players['AerWon'] * players['Min']) / 90),0)
+players['AerLost'] = round(((players['AerLost'] * players['Min']) / 90),0)
+players['AerWon%'] = round(((players['AerWon'] / (players['AerWon'] + players['AerLost'])) * 100),2)
+players['TouAtt3rd'] = round(((players['TouAtt3rd'] * players['Min']) / 90),0)
 ```
 
 ## Including Plots
@@ -28,15 +61,22 @@ head(players)
 max goleador
 
 ```{r}
-players[which.max(players$Goals),]
+players[which.max(players$Goals_tot),]
 ```
 sort by goals
 ```{r}
- by_goals <- players[order(-players$Goals),] 
+ by_goals <- players[order(-players$Goals_tot),] 
 by_goals
+
 ```
+
+defenser with touches in attacking 1/3
 ```{r}
-players['G/90'] = players['Goals']
-players['G/90']
+
+position = unique(players$Pos)
+position
+defenser = players[which(players$Pos == "DF"),]
+defenser <-defenser[order(-defenser$TouAtt3rd),]
+defenser
 ```
 
