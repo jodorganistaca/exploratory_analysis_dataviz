@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 This is an
 
 ```{r cars}
-players <- read.csv("/home/organist/Documents/exploratory_analysis_dataviz/project/2021-2022_Football_Player_Stats.csv",sep=";")
+players <- read.csv("./2021-2022_Football_Player_Stats.csv",sep=";")
 ```
 
 ## Including Plots
@@ -34,5 +34,9 @@ sort by goals
 ```{r}
  by_goals <- players[order(-players$Goals),] 
 by_goals
+```
+```{r}
+players['G/90'] = players['Goals']
+players['G/90']
 ```
 
