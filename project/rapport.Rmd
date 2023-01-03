@@ -1,0 +1,41 @@
+---
+title: "Enjeux socioéconomiques et géopolitiques du Football"
+author: "Jose Organista et Theo Fontana"
+date: "2023-01-03"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Enjeux socioéconomiques et géopolitiques du Football
+
+### Introduction
+Dans ce rapport, nous avons décidé de nous concentrer sur l'aspect géo-économique du football.
+
+```{r cars}
+library(ggplot2)
+athletes_earnings <- read.csv("./forbesathletesv2.csv",sep=",")
+
+earnings_by_sport <- aggregate(athletes_earnings$Earnings, by=list(Sport=athletes_earnings$Sport), FUN=sum)
+
+data <- data.frame(
+  group=earnings_by_sport$Sport,
+  value=earnings_by_sport$x
+)
+
+ggplot(data, aes(x="", y=value, fill=group)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
