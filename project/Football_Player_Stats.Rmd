@@ -85,4 +85,11 @@ bizard = players[which(players$Pos == "GKMF"),]
 defenders <-defenders[order(-defenser$TouAtt3rd),]
 defenders
 ```
+The best 4 Qualities for playing a particular position 
+
+```{r}
+max(defenders$Press)
+
+
+```
 
