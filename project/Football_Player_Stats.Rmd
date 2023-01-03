@@ -55,6 +55,10 @@ players['TouAtt3rd'] = round(((players['TouAtt3rd'] * players['Min']) / 90),0)
 You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
+library(tidyverse)
+library(ggrepel)
+
+require("ggrepel")
 head(players)
 ```
 
@@ -81,15 +85,106 @@ midfielders = players[which(players$Pos == "MF" | players$Pos == "MFFW" | player
 forwards = players[which(players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"),]
 bizard = players[which(players$Pos == "GKMF"),]
 ```
+
+
 ```{r}
-defenders <-defenders[order(-defenser$TouAtt3rd),]
+defenders <-defenders[order(-defenders$TouAtt3rd),]
 defenders
 ```
 The best 4 Qualities for playing a particular position 
 
 ```{r}
+library(hrbrthemes)
 max(defenders$Press)
+defenders %>% ggplot(aes(x=defenders$Rk,y=defenders$Goals_tot))+geom_point()
+goal_keepers %>% ggplot(aes(x=goal_keepers$Rk,y=goal_keepers$Goals_tot))+geom_point()
+midfielders %>% ggplot(aes(x=midfielders$Rk,y=midfielders$Goals_tot))+geom_point()
+forwards %>% ggplot(aes(x=forwards$Rk,y=forwards$Goals_tot))+geom_point()
+
+players  %>% group_by(Pos) %>% summarise(tot=mean(Goals_tot)) ->stata2
+stata2 %>% ggplot(aes(x=Pos,y=tot, group=Pos, color=Pos))+geom_line()+ ggtitle("Number of goals by Pos")
+
+forwards  %>% group_by(Goals_tot) %>% summarise(Freq=n()) ->stata2
+stata2 %>% ggplot(aes(x=stata2$Freq,y=stata2$Goals_tot))+geom_point()
+p <- stata2 %>%
+  ggplot( aes(x=stata2$Goals_tot, y=stata2$Freq)) +
+    geom_histogram() +
+    ggtitle("Bin size = 3") +
+    theme_ipsum() +
+    theme(
+      plot.title = element_text(size=15)
+    )
+p
+stata2 %>% ggplot(aes(x=Goals_tot,y=Freq, group=Goals_tot, color=Freq))+geom_histogram()+ ggtitle("Number of goals by Pos")
+
+```
+```{r}
+defenders  %>% group_by(Goals_tot) %>% summarise(Freq=n()) -> defenders_by_Goals
+ggplot(mtcars, aes(x=as.factor(Goals_tot), fill=as.factor(Goals_tot) )) + 
+  geom_bar( ) +
+  scale_fill_hue(c = 40) +
+  theme(legend.position="none")
+defenders_by_Goals %>% ggplot(aes(x=as.factor(Freq),y=Goals_tot))+geom_bar()+scale_fill_manual(values = Goals_tot )
+```
 
 
+```{r}
+library(Hmisc)
+describe(defenders$Goals_tot)
+describe(midfielders$Goals_tot)
+describe(goal_keepers$Goals_tot)
+describe(forwards$Goals_tot)
+```
+```{r}
+library(GGally)
+library(corrplot)
+defenders_ <- defenders %>% select(PresSucc, Press, Blocks, Err, Recov)  
+defenders_
+forwards_ <- forwards %>% select(Goals_tot, Assists)  
+forwards_
+cor(forwards_)
+ggpairs(defenders_, title="correlogram with ggpairs()")
+pairs(defenders_)
+```
+```{r}
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+data <- players %>% select(Pos, Goals_tot, PresSucc, GCA, Blocks, Err, Recov)  
+data$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
+data$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
+data$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
+data$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
+data
+```
+```{r}
+# Boxplot by category 
+bp1 <- ggplot(data,  aes(x=Pos, y=Goals_tot, fill=Pos)) + geom_boxplot()
+bp2 <- ggplot(data,  aes(x=Pos, y=PresSucc, fill=Pos)) + geom_boxplot()
+bp3 <- ggplot(data,  aes(x=Pos, y=GCA, fill=Pos)) + geom_boxplot()
+bp4 <- ggplot(data,  aes(x=Pos, y=Blocks, fill=Pos)) + geom_boxplot()
+bp5 <- ggplot(data,  aes(x=Pos, y=Err, fill=Pos)) + geom_boxplot()
+bp6 <- ggplot(data,  aes(x=Pos, y=Recov, fill=Pos)) + geom_boxplot()
+
+```
+
+```{r}
+library(gridExtra)
+grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol=2, nrow =3)
+
+```
+
+```{r}
+bp3
+```
+```{r}
+
+data <- forwards %>% select(Nation, Goals_tot, PresSucc, GCA, Blocks, Err, Recov)  
+data
+bp1 <- ggplot(data,  aes(x=Nation, y=Goals_tot, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+```
+
+```{r}
+data
 ```
 
