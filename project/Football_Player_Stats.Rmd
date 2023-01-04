@@ -135,6 +135,7 @@ describe(midfielders$Goals_tot)
 describe(goal_keepers$Goals_tot)
 describe(forwards$Goals_tot)
 ```
+
 ```{r}
 library(GGally)
 library(corrplot)
@@ -146,6 +147,7 @@ cor(forwards_)
 ggpairs(defenders_, title="correlogram with ggpairs()")
 pairs(defenders_)
 ```
+
 ```{r}
 library(tidyverse)
 library(hrbrthemes)
@@ -157,6 +159,7 @@ data$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <-
 data$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
 data
 ```
+
 ```{r}
 # Boxplot by category 
 bp1 <- ggplot(data,  aes(x=Pos, y=Goals_tot, fill=Pos)) + geom_boxplot()
@@ -173,6 +176,12 @@ library(gridExtra)
 grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol=2, nrow =3)
 
 ```
+
+```{r}
+
+bp1 <- ggplot(data,  aes(x=Nation, y=Goals_tot, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+```
+
 
 ```{r}
 bp3
@@ -211,18 +220,22 @@ bp11 <- ggplot(data,  aes(x=Pos, y=DriSucc., fill=Pos)) + geom_boxplot()
 bp12 <- ggplot(data,  aes(x=Pos, y=Rec., fill=Pos)) + geom_boxplot()
 bp13 <- ggplot(data,  aes(x=Pos, y=`AerWon%`, fill=Pos)) + geom_boxplot()
 
+
+bp1
+bp7
+bp8
+bp9
+bp10
+bp11
+bp12
 bp13
 ```
 
 
 ```{r}
 
-data <- forwards %>% select(Nation, Goals_tot, PresSucc, GCA, Blocks, Err, Recov)  
-data
-bp1 <- ggplot(data,  aes(x=Nation, y=Goals_tot, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
-```
+data <- forwards %>% select(Nation, Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)  
 
-```{r}
 data_ <- data %>% group_by(Nation) %>% summarise(total_count=n())
 data_ <- data_[order(-data_$total_count),] 
 my_second_df <- filter(data,Nation %in% data_$Nation[1:10])
@@ -231,11 +244,60 @@ vp2 <- ggplot(my_second_df,  aes(x=Nation, y=PresSucc, fill=Nation)) + geom_viol
 vp3 <- ggplot(my_second_df,  aes(x=Nation, y=GCA, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
 vp4 <- ggplot(my_second_df,  aes(x=Nation, y=Blocks, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
 vp5 <- ggplot(my_second_df,  aes(x=Nation, y=Err, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+
+
+vp7 <- ggplot(my_second_df,  aes(x=Nation, y=SoT., fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp8 <- ggplot(my_second_df,  aes(x=Nation, y=PasTotCmp., fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp9 <- ggplot(my_second_df,  aes(x=Nation, y=TklDri., fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp10 <- ggplot(my_second_df,  aes(x=Nation, y=Press., fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp11 <- ggplot(my_second_df,  aes(x=Nation, y=DriSucc., fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp12 <- ggplot(my_second_df,  aes(x=Nation, y=Rec., fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp13 <- ggplot(my_second_df,  aes(x=Nation, y=`AerWon%`, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+
+vp1
 vp2
+vp3
+vp4
+vp5
+
+vp7
+vp8
+vp9
+vp10
+vp11
+vp12
+vp13
+
 ```
 ```{r}
-data <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, , Recov)  
-pairs(data) 
+allPlayersCorr <- players %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
+forwardsCorr <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
+defendersCorr <- defenders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
+midfieldersCorr <- midfielders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
+goalKeepersCorr <- goal_keepers %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
+
+
+ggcorr(allPlayersCorr, method = c("everything", "pearson")) 
+ggcorr(forwardsCorr, method = c("everything", "pearson")) 
+ggcorr(defendersCorr, method = c("everything", "pearson")) 
+ggcorr(midfieldersCorr, method = c("everything", "pearson")) 
+ggcorr(goalKeepersCorr, method = c("everything", "pearson")) 
+```
+
+
+```{r}
+posNation <- players %>% select(Pos, Nation)
+
+posNation$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
+posNation$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
+posNation$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
+posNation$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
+
+posByNation <- posNation %>% group_by(Nation) %>% summarise(total_count=n())
+posByNation <- posByNation[order(-posByNation$total_count),] 
+posByNation
+
+ggplot(posNation, aes(fill=Nation, y=Nation %in% posByNation$Nation[1:10], x=Pos)) + geom_bar(position="dodge", stat="identity")
 
 ```
 
