@@ -258,7 +258,7 @@ vp1
 vp2
 vp3
 vp4
-vp5
+vp5(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
 
 vp7
 vp8
@@ -283,6 +283,18 @@ ggcorr(defendersCorr, method = c("everything", "pearson"))
 ggcorr(midfieldersCorr, method = c("everything", "pearson")) 
 ggcorr(goalKeepersCorr, method = c("everything", "pearson")) 
 ```
+```{r}
+allPlayersCorr <- players %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
+forwardsCorr <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
+defendersCorr <- defenders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
+midfieldersCorr <- midfielders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
+goalKeepersCorr <- goal_keepers %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
+ggcorr(allPlayersCorr, method = c("everything", "pearson")) 
+ggcorr(forwardsCorr, method = c("everything", "pearson")) 
+ggcorr(defendersCorr, method = c("everything", "pearson")) 
+ggcorr(midfieldersCorr, method = c("everything", "pearson")) 
+ggcorr(goalKeepersCorr, method = c("everything", "pearson")) 
+```
 
 
 ```{r}
@@ -293,11 +305,85 @@ posNation$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF
 posNation$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
 posNation$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
 
-posByNation <- posNation %>% group_by(Nation) %>% summarise(total_count=n())
-posByNation <- posByNation[order(-posByNation$total_count),] 
-posByNation
+posByNation <- posNation %>% group_by(Pos,Nation) %>% summarise(total_count=n())
+posByNation <- posByNation[order(-posByNation$total_count),]
+MostFrequentNationByPos <- posByNation %>% group_by(Pos) %>% slice(1:5)
 
-ggplot(posNation, aes(fill=Nation, y=Nation %in% posByNation$Nation[1:10], x=Pos)) + geom_bar(position="dodge", stat="identity")
+ggplot(MostFrequentNationByPos, aes(fill=MostFrequentNationByPos$Nation, y=MostFrequentNationByPos$total_count, x=MostFrequentNationByPos$Pos)) + geom_bar(position="dodge", stat="identity")
+
+```
+```{r}
+posNation <- players %>% select(Pos, Nation)
+
+posNation$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
+posNation$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
+posNation$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
+posNation$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
+
+nationFrequency <- posNation %>% group_by(Nation) %>% summarise(total_count=n())
+nationFrequency <- nationFrequency[order(-nationFrequency$total_count),] 
+topTenNation <- filter(posNation,Nation %in% nationFrequency$Nation[1:10])
+
+posByNation <- topTenNation %>% group_by(Pos,Nation) %>% summarise(total_count=n())
+posByNation <- topTenNation[order(-posByNation$total_count),]
+
+ggplot(posByNation, aes(fill=Pos, y=total_count, x=Nation)) + geom_bar(position="fill", stat="identity")+ ggtitle("Type of Position by Nation")
+```
+
+
+```{r}
+nationalites = unique(players$Nation)
+length(nationalites)
+```
+
+
+```{r}
+library(car)
+defendersByAge <- defenders %>% select(Age, Tkl) %>% group_by(Age) %>% summarise(total_count=mean(Tkl))
+defendersByAge <- filter(defendersByAge,defendersByAge$total_count > 0)
+
+forwardsByAge <- forwards %>% select(Age, Goals_tot) %>% group_by(Age) %>% summarise(total_count=mean(Goals_tot))
+forwardsByAge <- filter(forwardsByAge,forwardsByAge$total_count > 0)
+
+midfieldersByAge <- midfielders %>% select(Age, PasAss) %>% group_by(Age) %>% summarise(total_count=mean(PasAss))
+midfieldersByAge <- filter(midfieldersByAge,midfieldersByAge$total_count > 0)
+
+goalKeepersByAge <- goal_keepers %>% select(Age, Clr) %>% group_by(Age) %>% summarise(total_count=mean(Clr))
+goalKeepersByAge <- filter(goalKeepersByAge,goalKeepersByAge$total_count > 0)
+
+p1 <- plot(defendersByAge$Age, defendersByAge$total_count, lwd=3, col=rgb(0.1,0.7,0.1,0.8), xlab="Age", ylab = "Tkl", main = "Tkl by Age") + lines(lowess(defendersByAge$Age,defendersByAge$total_count))
+
+p2 <- plot(forwardsByAge$Age, forwardsByAge$total_count, lwd=3, col=rgb(0.1,0.7,0.1,0.8), xlab="Age", ylab = "Goals", main = "Goals by Age") + lines(lowess(forwardsByAge$Age,forwardsByAge$total_count))
+
+p3 <- plot(midfieldersByAge$Age, midfieldersByAge$total_count, lwd=3, col=rgb(0.1,0.7,0.1,0.8), xlab="Age", ylab = "PasAss", main = "PasAss by Age") + lines(lowess(midfieldersByAge$Age,midfieldersByAge$total_count))
+
+p4 <- plot(goalKeepersByAge$Age, goalKeepersByAge$total_count, lwd=3, col=rgb(0.1,0.7,0.1,0.8), xlab="Age", ylab = "Clr", main = "Clr by Age") + lines(lowess(goalKeepersByAge$Age,goalKeepersByAge$total_count))
+```
+```{r}
+library(cowplot)
+plot_grid(p1, p2, p3, p4)
+plot_list <- map(c(p1, p2, p3, p4),myplot)
+
+
+ggarrange(c(p1, p2, p3, p4) = plot_list,nrow = 2,ncol = ceiling(length(c(p1, p2, p3, p4))/2))
+```
+
+```{r}
+library(fmsb)
+
+bestPlayers <- players %>% select(Player, Age, Goals_tot, Assist, Dribble, Recov, Fls, Fld)
+bestPlayersNames <- c('Lionel Messi', 'Cristiano Ronaldo', 'Sadio Mané', 'Karim Benzema', 'Kevin De Bruyne', 'Kylian Mbapp<e9>')
+bestPlayers <- filter(bestPlayers,players$Player %in% bestPlayersNames)
+
+min_max_norm <- function(x) {
+  (x - min(x)) / (max(x) - min(x))
+}
+
+bestPlayersNorm <- as.data.frame(lapply(bestPlayers[3:8], min_max_norm))
+bestPlayersNorm['Player'] <- bestPlayers$Player
+data <- as.data.frame(matrix( sample( 0:20 , 15 , replace=F) , ncol=5))
+rownames(data) <- paste("mister", letters[1:6] , sep="-")
+radarchart(bestPlayersNorm)
 
 ```
 
