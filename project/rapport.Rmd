@@ -1,6 +1,6 @@
 ---
-title: "Enjeux socioéconomiques et géopolitiques du Football"
-author: "Jose Organista et Theo Fontana"
+title: "Analyse de différents profils de footballeur"
+author: "Jose Organista, Theo Fontana, Salma ABoumzrag"
 date: "2023-01-03"
 output: pdf_document
 ---
@@ -9,33 +9,36 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Enjeux socioéconomiques et géopolitiques du Football
+# Introduction
 
-### Introduction
-Dans ce rapport, nous avons décidé de nous concentrer sur l'aspect géo-économique du football.
+L'objectif de ce rapport est de pésenté les resultats de notre analyse sur un dataset contennat les statistiques individuelles des joueur de football évoluant dans les différents cinq championats européens (Premier League, Ligue 1, Bundesliga, Serie A et La Liga). 
 
-```{r cars}
-library(ggplot2)
-athletes_earnings <- read.csv("./forbesathletesv2.csv",sep=",")
+Le dataset selectionné est disponible sur kaggle en suivant [**ce lien**](https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats).
+il contient les statistique de plus de 2500 joueurs avec 143 collonnes contenant un variété de statistique avancées. 
+dont la signification complète est détaillé en annexe.
 
-earnings_by_sport <- aggregate(athletes_earnings$Earnings, by=list(Sport=athletes_earnings$Sport), FUN=sum)
+L'objectif est d'étudier comment la nationalité, l'age affecte le type de profil du joueur. Pour ce faire, nous nous concentrerons sur les statistiques clé suivantes :
 
-data <- data.frame(
-  group=earnings_by_sport$Sport,
-  value=earnings_by_sport$x
-)
+* Pos : Position
+* SoT% : Shots on target percentage (Does not include penalty kicks)
+* Rec% : Percentage of time a player successfully received a pass
 
-ggplot(data, aes(x="", y=value, fill=group)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0)
-```
+# Analyse en fonction de la nationalité
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
+```{r , echo=FALSE}
 plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Analyse en fonction de l'age
+
+```{r , echo=FALSE}
+plot(pressure)
+```
+
+# Analyse en fonction de l'age
+
+```{r , echo=FALSE}
+plot(pressure)
+```
+
