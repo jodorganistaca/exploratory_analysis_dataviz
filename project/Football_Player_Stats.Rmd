@@ -185,6 +185,19 @@ bp1 <- ggplot(data,  aes(x=Nation, y=Goals_tot, fill=Nation)) + geom_violin(widt
 ```
 
 ```{r}
-data
+data_ <- data %>% group_by(Nation) %>% summarise(total_count=n())
+data_ <- data_[order(-data_$total_count),] 
+my_second_df <- filter(data,Nation %in% data_$Nation[1:10])
+vp1 <- ggplot(my_second_df,  aes(x=Nation, y=Goals_tot, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp2 <- ggplot(my_second_df,  aes(x=Nation, y=PresSucc, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp3 <- ggplot(my_second_df,  aes(x=Nation, y=GCA, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp4 <- ggplot(my_second_df,  aes(x=Nation, y=Blocks, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp5 <- ggplot(my_second_df,  aes(x=Nation, y=Err, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
+vp2
+```
+```{r}
+data <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, , Recov)  
+pairs(data) 
+
 ```
 
