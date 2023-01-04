@@ -177,6 +177,44 @@ grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol=2, nrow =3)
 ```{r}
 bp3
 ```
+On va definir certains capacites pour chaque type de jouer
+
+SoT%: Shots on target percentage
+PasTotCmp%: Pass completion percentage
+TklDri%: Percentage of dribblers tackled
+Press%: Percentage of time the squad gained possession withing five seconds of applying pressure
+DriSucc%: Percentage of dribbles completed successfully
+Rec%: Percentage of time a player successfully received a pass
+AerWon: Percentage of aerials won
+
+```{r}
+data <- players %>% select(Pos, Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)  
+
+data$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
+data$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
+data$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
+data$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
+
+data
+bp1 <- ggplot(data,  aes(x=Pos, y=Goals_tot, fill=Pos)) + geom_boxplot()
+bp2 <- ggplot(data,  aes(x=Pos, y=PresSucc, fill=Pos)) + geom_boxplot()
+bp3 <- ggplot(data,  aes(x=Pos, y=GCA, fill=Pos)) + geom_boxplot()
+bp4 <- ggplot(data,  aes(x=Pos, y=Blocks, fill=Pos)) + geom_boxplot()
+bp5 <- ggplot(data,  aes(x=Pos, y=Err, fill=Pos)) + geom_boxplot()
+bp6 <- ggplot(data,  aes(x=Pos, y=Recov, fill=Pos)) + geom_boxplot()
+
+bp7 <- ggplot(data,  aes(x=Pos, y=SoT., fill=Pos)) + geom_boxplot()
+bp8 <- ggplot(data,  aes(x=Pos, y=PasTotCmp., fill=Pos)) + geom_boxplot()
+bp9 <- ggplot(data,  aes(x=Pos, y=TklDri., fill=Pos)) + geom_boxplot()
+bp10 <- ggplot(data,  aes(x=Pos, y=Press., fill=Pos)) + geom_boxplot()
+bp11 <- ggplot(data,  aes(x=Pos, y=DriSucc., fill=Pos)) + geom_boxplot()
+bp12 <- ggplot(data,  aes(x=Pos, y=Rec., fill=Pos)) + geom_boxplot()
+bp13 <- ggplot(data,  aes(x=Pos, y=`AerWon%`, fill=Pos)) + geom_boxplot()
+
+bp13
+```
+
+
 ```{r}
 
 data <- forwards %>% select(Nation, Goals_tot, PresSucc, GCA, Blocks, Err, Recov)  
