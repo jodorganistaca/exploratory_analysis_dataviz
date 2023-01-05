@@ -117,7 +117,7 @@ Columns' description are listed below.
 * Starts : Matches started
 * Min : Minutes played
 * Goals : Goals scored or allowed
-* ... ( <a href="https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats"> Check the dataset link </a> )
+* ... ( <a href="https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats"> For more detail </a> )
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
