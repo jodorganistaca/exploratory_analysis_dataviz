@@ -2,7 +2,10 @@
 title: "Analyse de différents profils de footballeur"
 author: "Jose Organista, Theo Fontana, Salma ABoumzrag"
 date: "2023-01-03"
-output: pdf_document
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -34,11 +37,12 @@ L'objectif est d'étudier comment la nationalité, l'age affecte le type de prof
 
 # Analyse en fonction de la nationalité
 
-Notre data set nous apprend que 103 nationalités différentes sont présentes dans les 5 championats européens majeur. Nous voulons alors voir si un pays produit un type de joeur particuiler. Pour ce faire nous étudions le nombre de jeoueur formé a un poste en fontion de sa nationalité d'origine
+![Type de poste en fonction de la nationalité](./asset/positionbynation.png)
 
-```{r , echo=FALSE}
-plot(pressure)
-```
+
+Notre data set nous apprend que 103 nationalités différentes sont présentes dans les 5 championats européens majeur. Nous voulons alors voir si un pays produit un type de joeur particuiler. Pour ce faire nous étudions le nombre de jeoueur formé a un poste en fontion de sa nationalité d'origine.
+
+
 
 A la lecture de ce graphique, il nous apparrait que ...
 
@@ -46,18 +50,21 @@ Cela peut s'expliqé par ...
 
 Nous pouvons conclure ...
 
+![Evolution du type de jeu en fonction de la nationalité](./asset/statbynations.png)
+
+
+
 # Analyse en fonction de l'age
 
 Nous voulons voir comment l'age des joueurs affecte leur profils de jeu et voir si le gain d'expériences du à l'age permet de compenser la perte de capacité atlétique en fontion du poste qu'occupe le joueur.
 
-![corelation](./asset/correlationFigure.png)
+
+![Evolution du niveau du niveau en fonction de l'age](./asset/ageEvolutionFigure.png)
+
 
 Nous nous apercevons alors que contrairement au idée recu l'age n'affecte pas trop la performance des joueurs,
 
 Il est cependant important de noté que ces donnée corresponde au données des championnat les plus compétitif. où les joueurs qui seraient moins performant en raison de leur age sont exclu progressiveemnt. Autrement dit il n'est normal que les données nous montre de bon score pour les jouer plus ancien car ils correspondent souvent à des top joueurs.
 
-# Analyse en fonction de l'age
 
-```{r , echo=FALSE}
-plot(pressure)
-```
+
