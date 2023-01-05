@@ -18,7 +18,7 @@
   <h3 align="center"> M2- 2022- Analyse exploratoire et visualisation de donnees </h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    An README file explaining all the details related to this project !
     <br />
     <a href="https://github.com/jodorganistaca/exploratory_analysis_dataviz"><strong>Explore the docs »</strong></a>
     <br />
