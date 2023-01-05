@@ -82,12 +82,12 @@ la problématique.......
 
 This section should list the major Language/IDE used in this project. 
 
-* <a href="https://www.r-project.org/">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png" alt="Logo1" width="80" height="80" >
+ <a href="https://www.r-project.org/">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png" alt="Logo1" width="50" height="50" >
   </a>
   
-* <a href=" https://www.r-studio.com/fr/ ">
-  <img src="src="https://www.rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-White.png" alt="Logo2" width="80" height="80" >
+ <a href=" https://www.r-studio.com/fr/ ">
+  <img src="https://www.rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-White.png" alt="Logo2" width="70" height="50" >
   </a>
   
 
