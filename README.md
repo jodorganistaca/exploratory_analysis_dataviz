@@ -69,7 +69,7 @@
 
 
 
-la problématique....... 
+In this project, we decided to focus on the impact of different metrics on the performance of football players, such their geographical area, their ages, their position...
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
