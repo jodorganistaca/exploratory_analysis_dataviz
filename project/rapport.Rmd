@@ -4,11 +4,10 @@ author: "Jose Organista, Theo Fontana, Salma ABoumzrag"
 date: "2023-01-03"
 output:
   pdf_document: 
-    fig_caption : yes
+    fig_caption : no
     highlight : kate
   html_document:
     df_print: paged
-  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -21,22 +20,7 @@ L'objectif de ce rapport est de pésenté les resultats de notre analyse sur un 
 
 Le dataset selectionné est disponible sur kaggle en suivant [**ce lien**](https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats). il contient les statistique de plus de 2500 joueurs avec 143 collonnes contenant un variété de statistique avancées. dont la signification complète est détaillé en annexe.
 
-L'objectif est d'étudier comment la nationalité, l'age affecte le type de profil du joueur. Pour ce faire, nous nous concentrerons sur les statistiques clé suivantes :
-
--   Pos : Position
--   Goals_tot : Nombre de but total
--   PresSucc : Number of times the squad gained possession withing five seconds of applying pressure
--   GCA : Goal-creating actions
--   Blocks : Number of times blocking the ball by standing in its path
--   Err : Mistakes leading to an opponent's shot
--   Recov : Number of loose balls recovered
--   SoT% : Shots on target percentage (Does not include penalty kicks)
--   PasTotCmp% : Pass completion percentage
--   TklDri% : Percentage of dribblers tackled
--   Press% : Percentage of time the squad gained possession withing five seconds of applying pressure
--   DriSucc% : Percentage of dribbles completed successfully
--   Rec% : Number of times a player successfully received a pass
--   AerWon% : Percentage of aerials won
+L'objectif est d'étudier comment la nationalité, l'age affecte le type de profil du joueur.
 
 # Analyse en fonction de la nationalité
 
@@ -51,7 +35,18 @@ A la lecture de ce graphique, il nous apparrait que certain pays fournissent plu
 
 * Les bresilien au contraire forme plus de defenceur comparé au autres nationalité là ou nous imaginons souvent un joueur bresilien comme étant un attaquant. le Bresil fourni en réalité au championnats européens relativement peu d'attaquant.
 
+Nous voulons également comparé les joueur en fonction de leur nationalité suivant differentes statistiques.
+
 ![Evolution du type de jeu en fonction de la nationalité](./asset/statbynations.png)
+
+Nous remarquons que certaines nationalités se distinguent 
+
+* Les senegalais dans le jeu aerien et la pression mises sur l'adversaire.
+* Les portuguais et les bresilien dans le nombre de dribles réalisé avec succeès.
+* Les bresilien et les allemend semble se rendre plus disponible et recevoir legerement plus de passes.
+
+Ces differences reflètes bien la typologie de jeu des slection nationales auxquel appartiennent ces joueurs.
+Les diférences restent cependant relativement faible car les joueurs doivent s'adapté au style de jeu des chmpionnat dans lesquels ils évoluent ce qui à tendance à moyener ces différences.
 
 # Analyse en fonction de l'age
 
@@ -75,9 +70,6 @@ Ce constat est moins vrai pour les joueurs à vocation deffensive. Leur qualité
 
 Dans cette dernière partie, nosu souahitons rappeler les limitaions de notre analyse. Il est en effet assez difficile de de deduire la qulité d'un joueur suivant ces statistiques. Nous allons pour cela comparer 3 des tous meilleurs joueur du monde :
  
-- Kylian Mbappe
-- Lionel Messi
-- Sadio Mane
 
 ![Differences entre different top players](./asset/bestForwards.png)
 

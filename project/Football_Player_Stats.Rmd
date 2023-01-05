@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Football Player Stats
 
-This notebook is the exploratory data analysis of 2021-2022 Football Player Stats. Taken the dataset from kaggle https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats. This dataset contains 2021-2022 football player stats per 90 minutes. Only players of Premier League, Ligue 1, Bundesliga, Serie A and La Liga are listed.
+This notebook is the exploratory data analysis of 2021-2022 Football Player Stats. Taken the dataset from kaggle https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats. 
+This dataset contains 2021-2022 football player stats per 90 minutes. Only players of Premier League, Ligue 1, Bundesliga, Serie A and La Liga are listed.
 
 The first thing we noticed about the data is that they were measured by 90 minutes played. So we transformed them into statistics for the whole session.
 
