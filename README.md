@@ -82,7 +82,7 @@ la problématique.......
 
 This section should list any major Language/IDE used in this project. 
 
-* [![R][R.js width="80" height="80"]][R-url]
+* [![R][R.js]][R-url]
 * [![Rstudio][Rstudio.js]][Rstudio-url]
 
 
@@ -255,8 +255,8 @@ Use this space to list resources you find helpful and would like to give credit 
 
 
 
-[R.js]: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png
+[R.js]:  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png" alt="Logo1" width="80" height="80">
 [R-url]: https://www.r-project.org/
-[Rstudio.js]: https://www.rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-White.png
-[Rstudio-url]: https://www.r-studio.com/fr/
+[Rstudio.js]: <img src="https://www.rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-White.png" alt="Logo2" width="80" height="80">
+[Rstudio-url]: https://www.r-studio.com/fr/ 
 
