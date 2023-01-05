@@ -80,10 +80,11 @@ This section should list the major Language/IDE used in this project.
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png" alt="Logo1" width="50" height="50" >
   </a>
   
-   <br />
+   <br/>
+   <br/>
    
  <a href=" https://www.r-studio.com/fr/ ">
-  <img src="https://upload.wikimedia.org/wikipedia/fr/4/4e/RStudio_Logo.png" alt="Logo2" width="90" height="50" >
+  <img src="https://upload.wikimedia.org/wikipedia/fr/4/4e/RStudio_Logo.png" alt="Logo2" width="100" height="50" >
   </a>
   
 
