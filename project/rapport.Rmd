@@ -53,9 +53,10 @@ Nous voulons voir comment l'age des joueurs affecte leurs profils de jeu et voir
 
 ![Evolution du niveau du niveau en fonction de l'age](./asset/ageEvolutionFigure.png)
 
-Nous nous apercevons alors que contrairement aux idées reçu l'age n'affecte pas trop la performance des joueurs.
+Nous nous apercevons alors que contrairement aux idées reçu l'âge n'affecte pas trop la performance des joueurs. Le nombre de buts et de passes augmente avec l'âge des joueurs, le nombre de tacles diminue ce qui montre une meilleure lecture du jeu de la part des défenseurs. Concernant le nombre d'arrêts réaliser par les gardiens, ils restent constants.
 
 Il est cependant important de noter que ces données correspondent aux données des championnats les plus compétitif, où les joueurs qui seraient moins performants en raison de leur âge sont exclu progressivement. Autrement dit il n'est normal que les données nous montre de bon score pour les jouer plus ancien, car ils correspondent souvent à des tops joueurs.
+
 # Analyse sur les corelations entre les statistiques
 
 ![Evolution du niveau du niveau en fonction de l'age](./asset/correlationFigure.png)
@@ -81,8 +82,8 @@ Ces trois ont en effet des profils très différents bien qu'étant tous de trè
 
 # Conclusion
 
-Ce rapport nous a permis de nous rendre compte que 
+Ce rapport nous a permis de nous rendre compte que le profil d'un joueur ainsi que sa performance sont généralement en rapport avec sa nationalité et son âge, dont on peut lier ce fait à des enjeux socioéconomiques.
 
-Nous rappeleons les limitations ...
+Nous rappelons les limitations, notre dataset ne permet pas vraiment de mettre en évidence des évolutions historiques sur les rendements des différents joueurs puisque les données utilisées sont liées uniquement à l'année 2021-2022.
 
-Il aurait egalment été interessant de voir..
+Il aurait également été intéressant de faire une étude comparative entre les différents championnats majeur européens pour voir si leur style de jeu impacte le profil d'un joueur.
