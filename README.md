@@ -12,6 +12,8 @@
   <a href="https://jodorganistaca/exploratory_analysis_dataviz">
     <img src="insa.png" alt="Logo" >
   </a>
+   <br />
+   <br />
 
   <h3 align="center"> M2- 2022- Analyse exploratoire et visualisation de donnees </h3>
 
