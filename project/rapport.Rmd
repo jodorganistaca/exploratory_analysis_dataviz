@@ -3,9 +3,10 @@ title: "Analyse de différents profils de footballeur"
 author: "Jose Organista, Theo Fontana, Salma ABoumzrag"
 date: "2023-01-03"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -37,14 +38,18 @@ L'objectif est d'étudier comment la nationalité, l'age affecte le type de prof
 
 # Analyse en fonction de la nationalité
 
-![Type de poste en fonction de la nationalité](./asset/positionbynation.png)
-
 
 Notre data set nous apprend que 103 nationalités différentes sont présentes dans les 5 championats européens majeur. Nous voulons alors voir si un pays produit un type de joeur particuiler. Pour ce faire nous étudions le nombre de jeoueur formé a un poste en fontion de sa nationalité d'origine.
 
+![Type de poste en fonction de la nationalité](./asset/positionbynation.png)
 
+A la lecture de ce graphique, il nous apparrait que certain pays fournissent plus un certain type de joeurs.
 
-A la lecture de ce graphique, il nous apparrait que ...
+* Les joeurs senegelais évoluant en Europe sont en effet majoritairement des attanquant ou des milieu de terrain mais très peu souvent des defenceurs.
+
+* Les bresilien au contraire forme plus de defenceur comparé au autres nationalité là ou nous imaginons souvent un joueur bresilien comme étant un attaquant. le Bresil fourni en réalité au championnats européens relativement peu d'attaquant.
+
+* 
 
 Cela peut s'expliqé par ...
 
@@ -52,19 +57,44 @@ Nous pouvons conclure ...
 
 ![Evolution du type de jeu en fonction de la nationalité](./asset/statbynations.png)
 
-
-
 # Analyse en fonction de l'age
 
 Nous voulons voir comment l'age des joueurs affecte leur profils de jeu et voir si le gain d'expériences du à l'age permet de compenser la perte de capacité atlétique en fontion du poste qu'occupe le joueur.
 
-
 ![Evolution du niveau du niveau en fonction de l'age](./asset/ageEvolutionFigure.png)
-
 
 Nous nous apercevons alors que contrairement au idée recu l'age n'affecte pas trop la performance des joueurs,
 
 Il est cependant important de noté que ces donnée corresponde au données des championnat les plus compétitif. où les joueurs qui seraient moins performant en raison de leur age sont exclu progressiveemnt. Autrement dit il n'est normal que les données nous montre de bon score pour les jouer plus ancien car ils correspondent souvent à des top joueurs.
 
+# Analyse sur les corelations entre les statistiques
 
+![Evolution du niveau du niveau en fonction de l'age](./asset/correlationFigure.png)
+Nous remarquons que les joueur attaquants ont plus de corelation entre leur statistiques offensive et deffensives
+celà nous permet de montrer que les joueurs attaquants s'impliquant plus en defences vont en general être plus performant sur le plan defensif.
 
+Ce constat est moins vrai pour les joueurs à vocation deffensive. Leur qualité  de defenseur influ peu sur leur qualité en attaque. Ceci s'explique que en dehors de certain profils sepcifique naotament les pistons les defenseur ne participent qu'expecationnelemnt à la construction offensive.
+
+# Analyse des 'top players'
+
+Dans cette dernière partie, nosu souahitons rappeler les limitaions de notre analyse. Il est en effet assez difficile de de deduire la qulité d'un joueur suivant ces statistiques. Nous allons pour cela comparer 3 des tous meilleurs joueur du monde :
+ 
+- Kylian Mbappe
+- Lionel Messi
+- Sadio Mane
+
+![Differences entre different top players](./asset/bestForwards.png)
+
+Ces trois ont en effet des profils très différents bien qu'étant tous de tres grands attaquants.
+
+* Nous remarquons notament que Sadio Mane se distingue par le nombre de fautes qu'il subit permetant ainsi à son equpie de se créer des nombreuses occasion sur coup de pieds arreté.
+
+* Kylian Mbappe apparait 
+
+# Conclusion
+
+Ce rapport nous a permi de nosu rendre compte que ..
+
+Nous rappeleons les limitations ...
+
+Il aurait egalment été interessant de voir..
