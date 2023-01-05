@@ -5,6 +5,9 @@
 <!-- PROJECT SHIELDS -->
 
 [![Contributors][contributors-shield]][contributors-url]
+[![Aboumzrag][linkedin1-shield]][linkedin1-url]
+[![Fontana][linkedin2-shield]][linkedin2-url]
+[![ORGANISTA][linkedin3-shield]][linkedin3-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -18,7 +21,7 @@
   <h3 align="center"> M2- 2022- Analyse exploratoire et visualisation de donnees </h3>
 
   <p align="center">
-    An README file explaining all the details related to this project !
+    An README file with all the details related to this project !
     <br />
     <a href="https://github.com/jodorganistaca/exploratory_analysis_dataviz"><strong>Explore the docs »</strong></a>
     <br />
@@ -137,7 +140,6 @@ The libraries you need and how to install them.
   ```sh
   install.packages("tidyverse")
   ```
- 
  * ggrepel
   ```sh
   install.packages("ggrepel")
@@ -198,6 +200,14 @@ The libraries you need and how to install them.
 [license-shield]: https://img.shields.io/github/license/jodorganistaca/exploratory_analysis_dataviz.svg?style=for-the-badge
 [license-url]: https://github.com/jodorganistaca/exploratory_analysis_dataviz/blob/master/LICENSE.txt
 
+[linkedin1-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin1-url]: https://www.linkedin.com/in/salma-aboumzrag/
+
+[linkedin2-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=515
+[linkedin2-url]: https://www.linkedin.com/in/theofontana/
+
+[linkedin3-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=535
+[linkedin3-url]: https://www.linkedin.com/in/jose-daniel-organista-calderon/
 
 
 
