@@ -82,7 +82,7 @@ la problématique.......
 
 This section should list any major Language/IDE used in this project. 
 
-* [![R][R.js]][R-url]
+* [![R][R.js width="80" height="80"]][R-url]
 * [![Rstudio][Rstudio.js]][Rstudio-url]
 
 
