@@ -96,7 +96,7 @@ This section should list the major Language/IDE used in this project.
 
 The used dataset contains 2021-2022 football player stats per 90 minutes.
 
-<p> <a href="#https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats"> Dataset Link</a> </p>
+<a href="https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats"> Dataset Link </a>
 
 
 
@@ -117,7 +117,7 @@ Columns' description are listed below.
 * Starts : Matches started
 * Min : Minutes played
 * Goals : Goals scored or allowed
-* ... (Check the dataset link)
+* ... ( <a href="https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats"> Check the dataset link </a> )
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
