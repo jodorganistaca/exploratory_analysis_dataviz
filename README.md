@@ -200,13 +200,13 @@ The libraries you need and how to install them.
 [license-shield]: https://img.shields.io/github/license/jodorganistaca/exploratory_analysis_dataviz.svg?style=for-the-badge
 [license-url]: https://github.com/jodorganistaca/exploratory_analysis_dataviz/blob/master/LICENSE.txt
 
-[linkedin1-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=515
+[linkedin1-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=315
 [linkedin1-url]: https://www.linkedin.com/in/salma-aboumzrag/
 
-[linkedin2-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=525
+[linkedin2-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=415
 [linkedin2-url]: https://www.linkedin.com/in/theofontana/
 
-[linkedin3-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=535
+[linkedin3-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=515
 [linkedin3-url]: https://www.linkedin.com/in/jose-daniel-organista-calderon/
 
 
