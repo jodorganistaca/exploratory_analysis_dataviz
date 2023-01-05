@@ -16,70 +16,68 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-L'objectif de ce rapport est de pésenté les resultats de notre analyse sur un dataset contennat les statistiques individuelles des joueur de football évoluant dans les différents cinq championats européens (Premier League, Ligue 1, Bundesliga, Serie A et La Liga).
+L'objectif de ce rapport est de présenté les résultats de notre analyse sur un dataset contenant les statistiques individuelles des joueur de football évoluant dans les différents cinq championnats européens (Premier League, Ligue 1, Bundesliga, Serie A et La Liga).
 
-Le dataset selectionné est disponible sur kaggle en suivant [**ce lien**](https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats). il contient les statistique de plus de 2500 joueurs avec 143 collonnes contenant un variété de statistique avancées. dont la signification complète est détaillé en annexe.
+Le dataset sélectionné est disponible sur kaggle en suivant [**ce lien**](https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats). Il contient les statistiques de plus de 2500 joueurs avec 143 colonnes contenant une variété de statistique avancées dont la signification complète est détaillé en annexe.
 
 L'objectif est d'étudier comment la nationalité, l'age affecte le type de profil du joueur.
 
 # Analyse en fonction de la nationalité
 
 
-Notre data set nous apprend que 103 nationalités différentes sont présentes dans les 5 championats européens majeur. Nous voulons alors voir si un pays produit un type de joeur particuiler. Pour ce faire nous étudions le nombre de jeoueur formé a un poste en fontion de sa nationalité d'origine.
+Notre dataset nous apprend que 103 nationalités différentes sont présentes dans les 5 championnats européens majeur. Nous voulons alors voir si un pays produit un type de joueur particulier. Pour ce faire, nous étudions le nombre de joueurs formé à un poste en fonction de sa nationalité d'origine.
 
 ![Type de poste en fonction de la nationalité](./asset/positionbynation.png)
 
-A la lecture de ce graphique, il nous apparrait que certain pays fournissent plus un certain type de joeurs.
+À la lecture de ce graphique, il nous apparaît que certains pays fournissent plus un certain type de joueurs.
 
-* Les joeurs senegelais évoluant en Europe sont en effet majoritairement des attanquant ou des milieu de terrain mais très peu souvent des defenceurs.
+* Les joueurs sénégalais évoluant en Europe sont en effet majoritairement des attaquants ou des milieux de terrain, mais très peu souvent des défenseurs.
+* Les brésilien au contraire forme plus de défenseur comparé aux autres nationalités là ou nous imaginons souvent un joueur brésilien comme étant un attaquant. Le Brésil fourni en réalité aux championnats européens relativement peu d'attaquant.
 
-* Les bresilien au contraire forme plus de defenceur comparé au autres nationalité là ou nous imaginons souvent un joueur bresilien comme étant un attaquant. le Bresil fourni en réalité au championnats européens relativement peu d'attaquant.
-
-Nous voulons également comparé les joueur en fonction de leur nationalité suivant differentes statistiques.
+Nous voulons également comparer les joueurs en fonction de leur nationalité suivant différentes statistiques.
 
 ![Evolution du type de jeu en fonction de la nationalité](./asset/statbynations.png)
 
-Nous remarquons que certaines nationalités se distinguent 
+Nous remarquons que certaines nationalités se distinguent. 
 
-* Les senegalais dans le jeu aerien et la pression mises sur l'adversaire.
-* Les portuguais et les bresilien dans le nombre de dribles réalisé avec succeès.
-* Les bresilien et les allemend semble se rendre plus disponible et recevoir legerement plus de passes.
+* Les sénégalais dans le jeu aérien et la pression mises sur l'adversaire.
+* Les portugais et les brésiliens dans le nombre de dribles réalisé avec succeès.
+* Les brésilien et les allemands semble se rendre plus disponible et recevoir légèrement plus de passes.
 
-Ces differences reflètes bien la typologie de jeu des slection nationales auxquel appartiennent ces joueurs.
-Les diférences restent cependant relativement faible car les joueurs doivent s'adapté au style de jeu des chmpionnat dans lesquels ils évoluent ce qui à tendance à moyener ces différences.
+Ces différences reflètent bien la typologie de jeu des sélections nationales auxquels appartiennent ces joueurs.
+Les différences restent cependant relativement faibles, car les joueurs doivent s'adapter au style de jeu des championnats dans lesquels ils évoluent ce qui a tendance à moyenner ces différences.
 
 # Analyse en fonction de l'age
 
-Nous voulons voir comment l'age des joueurs affecte leur profils de jeu et voir si le gain d'expériences du à l'age permet de compenser la perte de capacité atlétique en fontion du poste qu'occupe le joueur.
+Nous voulons voir comment l'age des joueurs affecte leurs profils de jeu et voir si le gain d'expériences dû à l'âge permet de compenser la perte de capacité athlétique en fonction du poste qu'occupe le joueur.
 
 ![Evolution du niveau du niveau en fonction de l'age](./asset/ageEvolutionFigure.png)
 
-Nous nous apercevons alors que contrairement au idée recu l'age n'affecte pas trop la performance des joueurs,
+Nous nous apercevons alors que contrairement aux idées reçu l'age n'affecte pas trop la performance des joueurs.
 
-Il est cependant important de noté que ces donnée corresponde au données des championnat les plus compétitif. où les joueurs qui seraient moins performant en raison de leur age sont exclu progressiveemnt. Autrement dit il n'est normal que les données nous montre de bon score pour les jouer plus ancien car ils correspondent souvent à des top joueurs.
-
+Il est cependant important de noter que ces données correspondent aux données des championnats les plus compétitif, où les joueurs qui seraient moins performants en raison de leur âge sont exclu progressivement. Autrement dit il n'est normal que les données nous montre de bon score pour les jouer plus ancien, car ils correspondent souvent à des tops joueurs.
 # Analyse sur les corelations entre les statistiques
 
 ![Evolution du niveau du niveau en fonction de l'age](./asset/correlationFigure.png)
-Nous remarquons que les joueur attaquants ont plus de corelation entre leur statistiques offensive et deffensives
-celà nous permet de montrer que les joueurs attaquants s'impliquant plus en defences vont en general être plus performant sur le plan defensif.
 
-Ce constat est moins vrai pour les joueurs à vocation deffensive. Leur qualité  de defenseur influ peu sur leur qualité en attaque. Ceci s'explique que en dehors de certain profils sepcifique naotament les pistons les defenseur ne participent qu'expecationnelemnt à la construction offensive.
+Nous remarquons que les joueurs attaquants ont plus de corrélation entre leurs statistiques offensive et défensives.
+Cela nous permet de montrer que les joueurs attaquants s'impliquant plus en défenses vont en général être plus performant sur le plan défensif.
+
+Ce constat est moins vrai pour les joueurs à vocation défensive. Leur qualité de défenseur influe peu sur leur qualité en attaque. Ceci s'explique, car, en dehors de certains profils spécifique, notamment les pistons, les défenseurs ne participent qu'exceptionnellement à la construction offensive.
 
 # Analyse des 'top players'
 
-Dans cette dernière partie, nosu souahitons rappeler les limitaions de notre analyse. Il est en effet assez difficile de de deduire la qulité d'un joueur suivant ces statistiques. Nous allons pour cela comparer 3 des tous meilleurs joueur du monde :
- 
+Dans cette dernière partie, nous souhaitons rappeler les limitations de notre analyse. Il est assez difficile de déduire la qualité d'un joueur suivant ces statistiques. Nous allons pour cela comparer trois des tous meilleurs joueurs du monde : 
 
 ![Differences entre different top players](./asset/bestForwards.png)
 
-Ces trois ont en effet des profils très différents bien qu'étant tous de tres grands attaquants.
+Ces trois ont en effet des profils très différents bien qu'étant tous de très grands attaquants.
 
-* Nous remarquons notament que Sadio Mane se distingue par le nombre de fautes qu'il subit permetant ainsi à son equpie de se créer des nombreuses occasion sur coup de pieds arreté.
+* Nous remarquons notamment que Sadio Mane se distingue par le nombre de fautes qu'il subit permettant ainsi à son équipe de se créer des nombreuses occasions sur coup de pieds arrêté.
 
-* Kylian Mbappe apparait veritablement commet un joueur hors normes se distinguant des autres sur presque toutes les statistiques comparé aux autres attauant natament par ces statistiques en but et passe decisives. Cepandant, il lui reste un marge de progression importante dans son implications deffensives au yeux de nombreux obeservateur même si cela ne se reflète pas forcement dans ces statistiques.
+* Kylian Mbappe apparaît véritablement commet un joueur hors normes se distinguant des autres sur presque toutes les statistiques comparé aux autres attaquant notamment par ces statistiques en but et passe décisive. Cependant, il lui reste une marge de progression importante dans son implication défensive aux yeux de nombreux observateurs même si cela ne se reflète pas forcément dans ces statistiques.
 
-* Concernant Lionel Messi, nous pouvons être etonné par le faible nombre de de but inscri. Nous reconnaisons cepdant le fait qu'il soit un très grand jouer au nombre de passe decisive qu'il arrive a réaliser tous en ayant des statistiques plus faible que les autres dans beaucoup d'autre domaines.
+* Concernant Lionel Messi, nous pouvons être étonnés par le faible nombre de buts inscrit. Nous reconnaissons cependant le fait qu'il soit un très grand jouer au nombre de passe décisive qu'il arrive à réaliser tous en ayant des statistiques plus faible que les autres dans beaucoup d'autre domaines.
 
 # Conclusion
 
