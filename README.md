@@ -257,6 +257,6 @@ Use this space to list resources you find helpful and would like to give credit 
 
 [R.js]: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png
 [R-url]: https://www.r-project.org/
-[Rstudio.js]: https://www.spankyjpn.com/wp-content/uploads/2022/10/imgbin-rstudio-data-analysis-data-science-computer-software-others-ZhNP8Rhhg4vAziZuhbqeWXUq3_t.jpg
+[Rstudio.js]: https://www.rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-White.png
 [Rstudio-url]: https://www.r-studio.com/fr/
 
