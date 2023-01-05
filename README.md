@@ -96,7 +96,7 @@ This section should list the major Language/IDE used in this project.
 
 The used dataset contains 2021-2022 football player stats per 90 minutes.
 
-<p>(<a href="#https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats">Dataset Link</a>)</p>
+<p> <a href="#https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats"> Dataset Link</a> </p>
 
 
 
@@ -131,6 +131,7 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 The libraries you need and how to install them.
+
 * tidyverse
   ```sh
   install.packages("tidyverse")
