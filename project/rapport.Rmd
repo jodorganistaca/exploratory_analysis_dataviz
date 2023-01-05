@@ -3,9 +3,11 @@ title: "Analyse de différents profils de footballeur"
 author: "Jose Organista, Theo Fontana, Salma ABoumzrag"
 date: "2023-01-03"
 output:
+  pdf_document: 
+    fig_caption : yes
+    highlight : kate
   html_document:
     df_print: paged
-  pdf_document: default
   word_document: default
 ---
 
@@ -49,12 +51,6 @@ A la lecture de ce graphique, il nous apparrait que certain pays fournissent plu
 
 * Les bresilien au contraire forme plus de defenceur comparé au autres nationalité là ou nous imaginons souvent un joueur bresilien comme étant un attaquant. le Bresil fourni en réalité au championnats européens relativement peu d'attaquant.
 
-* 
-
-Cela peut s'expliqé par ...
-
-Nous pouvons conclure ...
-
 ![Evolution du type de jeu en fonction de la nationalité](./asset/statbynations.png)
 
 # Analyse en fonction de l'age
@@ -91,6 +87,7 @@ Ces trois ont en effet des profils très différents bien qu'étant tous de tres
 
 * Kylian Mbappe apparait veritablement commet un joueur hors normes se distinguant des autres sur presque toutes les statistiques comparé aux autres attauant natament par ces statistiques en but et passe decisives. Cepandant, il lui reste un marge de progression importante dans son implications deffensives au yeux de nombreux obeservateur même si cela ne se reflète pas forcement dans ces statistiques.
 
+* Concernant Lionel Messi, nous pouvons être etonné par le faible nombre de de but inscri. Nous reconnaisons cepdant le fait qu'il soit un très grand jouer au nombre de passe decisive qu'il arrive a réaliser tous en ayant des statistiques plus faible que les autres dans beaucoup d'autre domaines.
 
 # Conclusion
 

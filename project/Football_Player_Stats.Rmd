@@ -11,7 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Football Player Stats
 
-This is an
+This notebook is the exploratory data analysis of 2021-2022 Football Player Stats. Taken the dataset from kaggle https://www.kaggle.com/datasets/vivovinco/20212022-football-player-stats. This dataset contains 2021-2022 football player stats per 90 minutes. Only players of Premier League, Ligue 1, Bundesliga, Serie A and La Liga are listed.
+
+The first thing we noticed about the data is that they were measured by 90 minutes played. So we transformed them into statistics for the whole session.
+
 
 ```{r cars}
 players <- read.csv("./2021-2022_Football_Player_Stats.csv",sep=";")
@@ -48,37 +51,50 @@ players['AerWon'] = round(((players['AerWon'] * players['Min']) / 90),0)
 players['AerLost'] = round(((players['AerLost'] * players['Min']) / 90),0)
 players['AerWon%'] = round(((players['AerWon'] / (players['AerWon'] + players['AerLost'])) * 100),2)
 players['TouAtt3rd'] = round(((players['TouAtt3rd'] * players['Min']) / 90),0)
+
+head(players)
 ```
 
-## Including Plots
+## Libraries
 
-You can also embed plots, for example:
+The libraries we used to make the different plots to install them we use CRAN. The explication of each one is on the Readme
 
 ```{r pressure, echo=FALSE}
 library(tidyverse)
 library(ggrepel)
-
-require("ggrepel")
-head(players)
+library(hrbrthemes)
+library(Hmisc)
+library(GGally)
+library(corrplot)
+library(viridis)
+library(gridExtra)
+library(car)
+library(cowplot)
+library(fmsb)
+library(ggradar)
+library(plotly)
 ```
-
-max goleador
+We have seen some basic facts about this dataset like the player that make the most numbers of goals
 
 ```{r}
 players[which.max(players$Goals_tot),]
 ```
-sort by goals
+we can use this variable to classify the dataset and see the players who scored the most goals in the season.
 ```{r}
 by_goals <- players[order(-players$Goals_tot),] 
-by_goals
+head(by_goals)
 
 ```
 
-defenser with touches in attacking 1/3
+To make a deeper analysis we have seen the different position by player.
 ```{r}
 
 position = unique(players$Pos)
 position
+
+```
+We keep the 4 most recognized positions in soccer such as attackers, defenders, midfielders and goalkeepers.
+```{r}
 goal_keepers = players[which(players$Pos == "GK"),]
 defenders = players[which(players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"),]
 midfielders = players[which(players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"),]
@@ -86,107 +102,22 @@ forwards = players[which(players$Pos == "FW" | players$Pos == "FWMF" | players$P
 bizard = players[which(players$Pos == "GKMF"),]
 ```
 
+We can then make an analysis for each type of player by position, such as the defenders who spend more time in the attacking area.
 
 ```{r}
 defenders <-defenders[order(-defenders$TouAtt3rd),]
-defenders
+head(defenders)
 ```
-The best 4 Qualities for playing a particular position 
+Now the question is how to recognize a good player. Let's compare a variable such as total goals by each type of player.
 
 ```{r}
-library(hrbrthemes)
-max(defenders$Press)
-defenders %>% ggplot(aes(x=defenders$Rk,y=defenders$Goals_tot))+geom_point()
-goal_keepers %>% ggplot(aes(x=goal_keepers$Rk,y=goal_keepers$Goals_tot))+geom_point()
-midfielders %>% ggplot(aes(x=midfielders$Rk,y=midfielders$Goals_tot))+geom_point()
-forwards %>% ggplot(aes(x=forwards$Rk,y=forwards$Goals_tot))+geom_point()
 
-players  %>% group_by(Pos) %>% summarise(tot=mean(Goals_tot)) ->stata2
-stata2 %>% ggplot(aes(x=Pos,y=tot, group=Pos, color=Pos))+geom_line()+ ggtitle("Number of goals by Pos")
-
-forwards  %>% group_by(Goals_tot) %>% summarise(Freq=n()) ->stata2
-stata2 %>% ggplot(aes(x=stata2$Freq,y=stata2$Goals_tot))+geom_point()
-p <- stata2 %>%
-  ggplot( aes(x=stata2$Goals_tot, y=stata2$Freq)) +
-    geom_histogram() +
-    ggtitle("Bin size = 3") +
-    theme_ipsum() +
-    theme(
-      plot.title = element_text(size=15)
-    )
-p
-stata2 %>% ggplot(aes(x=Goals_tot,y=Freq, group=Goals_tot, color=Freq))+geom_histogram()+ ggtitle("Number of goals by Pos")
-
-```
-```{r}
-defenders  %>% group_by(Goals_tot) %>% summarise(Freq=n()) -> defenders_by_Goals
-ggplot(mtcars, aes(x=as.factor(Goals_tot), fill=as.factor(Goals_tot) )) + 
-  geom_bar( ) +
-  scale_fill_hue(c = 40) +
-  theme(legend.position="none")
-defenders_by_Goals %>% ggplot(aes(x=as.factor(Freq),y=Goals_tot))+geom_bar()+scale_fill_manual(values = Goals_tot )
-```
-
-
-```{r}
-library(Hmisc)
 describe(defenders$Goals_tot)
 describe(midfielders$Goals_tot)
 describe(goal_keepers$Goals_tot)
 describe(forwards$Goals_tot)
 ```
-
-```{r}
-library(GGally)
-library(corrplot)
-defenders_ <- defenders %>% select(PresSucc, Press, Blocks, Err, Recov)  
-defenders_
-forwards_ <- forwards %>% select(Goals_tot, Assists)  
-forwards_
-cor(forwards_)
-ggpairs(defenders_, title="correlogram with ggpairs()")
-pairs(defenders_)
-```
-
-```{r}
-library(tidyverse)
-library(hrbrthemes)
-library(viridis)
-data <- players %>% select(Pos, Goals_tot, PresSucc, GCA, Blocks, Err, Recov)  
-data$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
-data$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
-data$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
-data$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
-data
-```
-
-```{r}
-# Boxplot by category 
-bp1 <- ggplot(data,  aes(x=Pos, y=Goals_tot, fill=Pos)) + geom_boxplot()
-bp2 <- ggplot(data,  aes(x=Pos, y=PresSucc, fill=Pos)) + geom_boxplot()
-bp3 <- ggplot(data,  aes(x=Pos, y=GCA, fill=Pos)) + geom_boxplot()
-bp4 <- ggplot(data,  aes(x=Pos, y=Blocks, fill=Pos)) + geom_boxplot()
-bp5 <- ggplot(data,  aes(x=Pos, y=Err, fill=Pos)) + geom_boxplot()
-bp6 <- ggplot(data,  aes(x=Pos, y=Recov, fill=Pos)) + geom_boxplot()
-
-```
-
-```{r}
-library(gridExtra)
-grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol=2, nrow =3)
-
-```
-
-```{r}
-
-bp1 <- ggplot(data,  aes(x=Nation, y=Goals_tot, fill=Nation)) + geom_violin(width=1.4) + geom_boxplot(width=0.1, color="grey", alpha=0.2)
-```
-
-
-```{r}
-bp3
-```
-On va definir certains capacites pour chaque type de jouer
+But this variable is not enough to know if he is a good player so we add more variables to the observation and through a boxplot we can appreciate the capabilities where according to the type of player each player stands out.
 
 SoT%: Shots on target percentage
 PasTotCmp%: Pass completion percentage
@@ -197,7 +128,8 @@ Rec%: Percentage of time a player successfully received a pass
 AerWon: Percentage of aerials won
 
 ```{r}
-data <- players %>% select(Pos, Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)  
+
+data <- players %>% select(Pos, Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri., Press., DriSucc., Rec., `AerWon%`)  
 
 data$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
 data$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
@@ -205,20 +137,20 @@ data$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <-
 data$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
 
 data
-bp1 <- ggplot(data,  aes(x=Pos, y=Goals_tot, fill=Pos)) + geom_boxplot()
-bp2 <- ggplot(data,  aes(x=Pos, y=PresSucc, fill=Pos)) + geom_boxplot()
-bp3 <- ggplot(data,  aes(x=Pos, y=GCA, fill=Pos)) + geom_boxplot()
-bp4 <- ggplot(data,  aes(x=Pos, y=Blocks, fill=Pos)) + geom_boxplot()
-bp5 <- ggplot(data,  aes(x=Pos, y=Err, fill=Pos)) + geom_boxplot()
-bp6 <- ggplot(data,  aes(x=Pos, y=Recov, fill=Pos)) + geom_boxplot()
+bp1 <- ggplot(data,  aes(x=Pos, y=Goals_tot, fill=Pos)) + geom_boxplot() + ggtitle("Goals_tot by tipe of player")
+bp2 <- ggplot(data,  aes(x=Pos, y=PresSucc, fill=Pos)) + geom_boxplot() + ggtitle("PresSucc by tipe of player")
+bp3 <- ggplot(data,  aes(x=Pos, y=GCA, fill=Pos)) + geom_boxplot() + ggtitle("GCA by tipe of player")
+bp4 <- ggplot(data,  aes(x=Pos, y=Blocks, fill=Pos)) + geom_boxplot() + ggtitle("Blocks by tipe of player")
+bp5 <- ggplot(data,  aes(x=Pos, y=Err, fill=Pos)) + geom_boxplot() + ggtitle("Err by tipe of player")
+bp6 <- ggplot(data,  aes(x=Pos, y=Recov, fill=Pos)) + geom_boxplot() + ggtitle("Recov by tipe of player")
 
-bp7 <- ggplot(data,  aes(x=Pos, y=SoT., fill=Pos)) + geom_boxplot()
-bp8 <- ggplot(data,  aes(x=Pos, y=PasTotCmp., fill=Pos)) + geom_boxplot()
-bp9 <- ggplot(data,  aes(x=Pos, y=TklDri., fill=Pos)) + geom_boxplot()
-bp10 <- ggplot(data,  aes(x=Pos, y=Press., fill=Pos)) + geom_boxplot()
-bp11 <- ggplot(data,  aes(x=Pos, y=DriSucc., fill=Pos)) + geom_boxplot()
-bp12 <- ggplot(data,  aes(x=Pos, y=Rec., fill=Pos)) + geom_boxplot()
-bp13 <- ggplot(data,  aes(x=Pos, y=`AerWon%`, fill=Pos)) + geom_boxplot()
+bp7 <- ggplot(data,  aes(x=Pos, y=SoT., fill=Pos)) + geom_boxplot() + ggtitle("SoT. by tipe of player")
+bp8 <- ggplot(data,  aes(x=Pos, y=PasTotCmp., fill=Pos)) + geom_boxplot() + ggtitle("PasTotCmp. by tipe of player")
+bp9 <- ggplot(data,  aes(x=Pos, y=TklDri., fill=Pos)) + geom_boxplot() + ggtitle("TklDri. by tipe of player")
+bp10 <- ggplot(data,  aes(x=Pos, y=Press., fill=Pos)) + geom_boxplot() + ggtitle("Press. by tipe of player")
+bp11 <- ggplot(data,  aes(x=Pos, y=DriSucc., fill=Pos)) + geom_boxplot() + ggtitle("DriSucc. by tipe of player")
+bp12 <- ggplot(data,  aes(x=Pos, y=Rec., fill=Pos)) + geom_boxplot() + ggtitle("Rec. by tipe of player")
+bp13 <- ggplot(data,  aes(x=Pos, y=`AerWon%`, fill=Pos)) + geom_boxplot() + ggtitle("AerWon by tipe of player")
 
 
 bp1
@@ -230,7 +162,36 @@ bp11
 bp12
 bp13
 ```
+In these graphs above, we can see that depending on the type of player some characteristics stand out such as goals for forwards or tackles for defenders.
 
+
+
+At this point we wonder if there is any relationship between the country and the types of players. 
+
+```{r}
+nationalites = unique(players$Nation)
+length(nationalites)
+```
+As there are quite a few nationalities, we have chosen the 10 most frequent ones in the data set and count each type of player by nationalite.
+
+```{r}
+posNation <- players %>% select(Pos, Nation)
+
+posNation$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
+posNation$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
+posNation$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
+posNation$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
+
+nationFrequency <- posNation %>% group_by(Nation) %>% summarise(total_count=n())
+nationFrequency <- nationFrequency[order(-nationFrequency$total_count),] 
+topTenNation <- filter(posNation,Nation %in% nationFrequency$Nation[1:10])
+
+posByNation <- topTenNation %>% group_by(Pos,Nation) %>% summarise(total_count=n())
+posByNation <- posByNation[order(-posByNation$total_count),]
+
+ggplot(posByNation, aes(fill=Pos, y=total_count, x=Nation)) + geom_bar(position="fill", stat="identity")+ ggtitle("Type of Position by Nation")
+```
+Is there any relation between the nationality and the statistics of each player? We performed different boxplots with the density called violin to identify this relationship.
 
 ```{r}
 
@@ -268,31 +229,19 @@ vp12
 vp13
 
 ```
-```{r}
-allPlayersCorr <- players %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
-forwardsCorr <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
-defendersCorr <- defenders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
-midfieldersCorr <- midfielders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
-goalKeepersCorr <- goal_keepers %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT., PasTotCmp., TklDri.,Press., DriSucc., Rec., `AerWon%`)
+Is there any correlation between a player's and the different stats?
 
-
-ggcorr(allPlayersCorr, method = c("everything", "pearson")) 
-ggcorr(forwardsCorr, method = c("everything", "pearson")) 
-ggcorr(defendersCorr, method = c("everything", "pearson")) 
-ggcorr(midfieldersCorr, method = c("everything", "pearson")) 
-ggcorr(goalKeepersCorr, method = c("everything", "pearson")) 
-```
 ```{r}
-library(plotly)
+
 allPlayersCorr <- players %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 forwardsCorr <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 defendersCorr <- defenders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 midfieldersCorr <- midfielders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 goalKeepersCorr <- goal_keepers %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
-par(mfrow=c(2,2))
+
 ggcorr(allPlayersCorr, method = c("everything", "pearson")) + ggtitle("All players")
 
-par(mfrow=c(4,1)) 
+
 ggcorr(forwardsCorr, method = c("everything", "pearson")) + ggtitle("Forwards")
 ggcorr(defendersCorr, method = c("everything", "pearson")) + ggtitle("Defender")
 ggcorr(midfieldersCorr, method = c("everything", "pearson")) + ggtitle("Midfielders")
@@ -300,49 +249,10 @@ ggcorr(goalKeepersCorr, method = c("everything", "pearson")) + ggtitle("Goalkeep
 
 ```
 
+Is there a relationship between age and player performance?
 
 ```{r}
-posNation <- players %>% select(Pos, Nation)
 
-posNation$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
-posNation$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
-posNation$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
-posNation$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
-
-posByNation <- posNation %>% group_by(Pos,Nation) %>% summarise(total_count=n())
-posByNation <- posByNation[order(-posByNation$total_count),]
-MostFrequentNationByPos <- posByNation %>% group_by(Pos) %>% slice(1:5)
-
-ggplot(MostFrequentNationByPos, aes(fill=MostFrequentNationByPos$Nation, y=MostFrequentNationByPos$total_count, x=MostFrequentNationByPos$Pos)) + geom_bar(position="dodge", stat="identity")
-
-```
-```{r}
-posNation <- players %>% select(Pos, Nation)
-
-posNation$Pos[players$Pos == "DF" | players$Pos == "DFMF" | players$Pos == "DFFW"] <- "DF"
-posNation$Pos[players$Pos == "MF" | players$Pos == "MFFW" | players$Pos == "MFDF"] <- "MF"
-posNation$Pos[players$Pos == "FW" | players$Pos == "FWMF" | players$Pos == "FWDF"] <- "FW"
-posNation$Pos[players$Pos == "GK" | players$Pos == "GKMF" ] <- "GK"
-
-nationFrequency <- posNation %>% group_by(Nation) %>% summarise(total_count=n())
-nationFrequency <- nationFrequency[order(-nationFrequency$total_count),] 
-topTenNation <- filter(posNation,Nation %in% nationFrequency$Nation[1:10])
-
-posByNation <- topTenNation %>% group_by(Pos,Nation) %>% summarise(total_count=n())
-posByNation <- posByNation[order(-posByNation$total_count),]
-
-ggplot(posByNation, aes(fill=Pos, y=total_count, x=Nation)) + geom_bar(position="fill", stat="identity")+ ggtitle("Type of Position by Nation")
-```
-
-
-```{r}
-nationalites = unique(players$Nation)
-length(nationalites)
-```
-
-
-```{r}
-library(car)
 defendersByAge <- defenders %>% select(Age, Tkl) %>% group_by(Age) %>% summarise(total_count=mean(Tkl))
 defendersByAge <- filter(defendersByAge,defendersByAge$total_count > 0)
 
@@ -362,89 +272,9 @@ p2 <- plot(forwardsByAge$Age, forwardsByAge$total_count, lwd=3, col=rgb(0.1,0.7,
 p3 <- plot(midfieldersByAge$Age, midfieldersByAge$total_count, lwd=3, col=rgb(0.1,0.7,0.1,0.8), xlab="Age", ylab = "PasAss", main = "PasAss by Age") + lines(lowess(midfieldersByAge$Age,midfieldersByAge$total_count))
 
 p4 <- plot(goalKeepersByAge$Age, goalKeepersByAge$total_count, lwd=3, col=rgb(0.1,0.7,0.1,0.8), xlab="Age", ylab = "Clr", main = "Clr by Age") + lines(lowess(goalKeepersByAge$Age,goalKeepersByAge$total_count))
-```
-```{r}
-library(cowplot)
-plot_grid(p1, p2, p3, p4)
-plot_list <- map(c(p1, p2, p3, p4),myplot)
-
-
-ggarrange(c(p1, p2, p3, p4) = plot_list,nrow = 2,ncol = ceiling(length(c(p1, p2, p3, p4))/2))
-```
-
-```{r}
-library(fmsb)
-
-bestPlayers <- players %>% select(Player, Age, Goals_tot, Assist, Dribble, Recov, Fls, Fld)
-
-min_max_norm <- function(x) {
- (x - min(x)) / (max(x) - min(x))
-}
-
-bestPlayersNorm <- bestPlayers
-bestPlayersNorm[3:8] <- as.data.frame(lapply(bestPlayers[3:8], min_max_norm))
-
-bestPlayersNames <- c('Lionel Messi', 'Cristiano Ronaldo', 'Sadio Mané', 'Karim Benzema', 'Kevin De Bruyne', 'Kylian Mbapp<e9>')
-bestPlayers <- filter(bestPlayersNorm,players$Player %in% bestPlayersNames & players$Goals_tot != 0)
-bestPlayersNames <- bestPlayers$Player
-bestPlayers <- bestPlayers[3:8]
-rownames(bestPlayers) <- bestPlayersNames
-bestPlayers <- rbind(rep(1,6) , rep(0,6) , bestPlayers)
-bestPlayers
-
-colors_border=c( rgb(0.44,0.09,0.09,0.9), rgb(0.9,0.6,0.25,0.9) , rgb(0.16,0.25,0.38,0.9), rgb(0.04,0.43,0.30,0.9) , rgb(0.65,0.5,0.86,0.9) )
- 
-
-radarchart(bestPlayers)
-radarchart( bestPlayers  , axistype=1 , 
-    #custom polygon
-    pcol=colors_border , plwd=4 , plty=1,
-    #custom the grid
-    cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.8,
-    #custom labels
-    vlcex=0.8 
-    )
-
-
-legend("topright",
-       legend = paste("Group", 1:3),
-       bty = "n", pch = 20, col = areas,
-       text.col = "grey25", pt.cex = 2)
-
-
 
 ```
-
-```{r}
-library(fmsb)
- 
-# Create data: note in High school for several students
-set.seed(99)
-data <- as.data.frame(matrix( sample( 0:20 , 15 , replace=F) , ncol=5))
-colnames(data) <- c("math" , "english" , "biology" , "music" , "R-coding" )
-rownames(data) <- paste("mister" , letters[1:3] , sep="-")
- 
-# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each variable to show on the plot!
-data <- rbind(rep(20,5) , rep(0,5) , data)
-
-# Color vector
-colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
-colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
-
-# plot with default options:
-radarchart( data  , axistype=1 , 
-    #custom polygon
-    pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
-    #custom the grid
-    cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.8,
-    #custom labels
-    vlcex=0.8 
-    )
-
-# Add a legend
-legend(x=0.7, y=1, legend = rownames(data[-c(1,2),]), bty = "n", pch=20 , col=colors_in , text.col = "grey", cex=1.2, pt.cex=3)
-
-```
+Finnaly we see 3 top players to analyze their differences
 
 ```{r}
 library(ggradar)
