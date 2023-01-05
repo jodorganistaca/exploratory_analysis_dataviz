@@ -86,7 +86,7 @@ This section should list the major Language/IDE used in this project.
    <br/>
    <br/>
    
- <a href=" https://www.r-studio.com/fr/ ">
+ <a href="https://www.r-studio.com/fr/ ">
   <img src="https://upload.wikimedia.org/wikipedia/fr/4/4e/RStudio_Logo.png" alt="Logo2" width="100" height="50" >
   </a>
   
