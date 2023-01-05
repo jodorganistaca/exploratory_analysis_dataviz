@@ -284,16 +284,21 @@ ggcorr(midfieldersCorr, method = c("everything", "pearson"))
 ggcorr(goalKeepersCorr, method = c("everything", "pearson")) 
 ```
 ```{r}
+library(plotly)
 allPlayersCorr <- players %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 forwardsCorr <- forwards %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 defendersCorr <- defenders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 midfieldersCorr <- midfielders %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
 goalKeepersCorr <- goal_keepers %>% select(Goals_tot, PresSucc, GCA, Blocks, Err, Recov, SoT, PasTotCmp, TklDri,Press, DriSucc, Rec, DriAtt, RecTarg, TouAttPen,CPA)
-ggcorr(allPlayersCorr, method = c("everything", "pearson")) 
-ggcorr(forwardsCorr, method = c("everything", "pearson")) 
-ggcorr(defendersCorr, method = c("everything", "pearson")) 
-ggcorr(midfieldersCorr, method = c("everything", "pearson")) 
-ggcorr(goalKeepersCorr, method = c("everything", "pearson")) 
+par(mfrow=c(2,2))
+ggcorr(allPlayersCorr, method = c("everything", "pearson")) + ggtitle("All players")
+
+par(mfrow=c(4,1)) 
+ggcorr(forwardsCorr, method = c("everything", "pearson")) + ggtitle("Forwards")
+ggcorr(defendersCorr, method = c("everything", "pearson")) + ggtitle("Defender")
+ggcorr(midfieldersCorr, method = c("everything", "pearson")) + ggtitle("Midfielders")
+ggcorr(goalKeepersCorr, method = c("everything", "pearson")) + ggtitle("Goalkeeper")
+
 ```
 
 
